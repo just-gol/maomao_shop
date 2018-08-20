@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.AdminLoanMapper" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.AdminLoan" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="loan_old" property="loanOld" jdbcType="BIGINT" />
+    <result column="loan_new" property="loanNew" jdbcType="BIGINT" />
+    <result column="loan_change" property="loanChange" jdbcType="BIGINT" />
+    <result column="biz_id" property="bizId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, admin_id, create_time, loan_old, loan_new, loan_change, biz_id
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.maomao.ssm.bean.AdminLoanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin_loan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    id,admin_id,create_time,loan_old,loan_new,loan_change,biz_id
+    from admin_loan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin_loan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.AdminLoanExample" >
+    delete from admin_loan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.AdminLoan" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin_loan (admin_id, create_time, loan_old, 
+      loan_new, loan_change, biz_id
+      )
+    values (#{adminId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{loanOld,jdbcType=BIGINT}, 
+      #{loanNew,jdbcType=BIGINT}, #{loanChange,jdbcType=BIGINT}, #{bizId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.AdminLoan" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin_loan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="loanOld != null" >
+        loan_old,
+      </if>
+      <if test="loanNew != null" >
+        loan_new,
+      </if>
+      <if test="loanChange != null" >
+        loan_change,
+      </if>
+      <if test="bizId != null" >
+        biz_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanOld != null" >
+        #{loanOld,jdbcType=BIGINT},
+      </if>
+      <if test="loanNew != null" >
+        #{loanNew,jdbcType=BIGINT},
+      </if>
+      <if test="loanChange != null" >
+        #{loanChange,jdbcType=BIGINT},
+      </if>
+      <if test="bizId != null" >
+        #{bizId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.AdminLoanExample" resultType="java.lang.Integer" >
+    select count(*) from admin_loan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update admin_loan
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminId != null" >
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loanOld != null" >
+        loan_old = #{record.loanOld,jdbcType=BIGINT},
+      </if>
+      <if test="record.loanNew != null" >
+        loan_new = #{record.loanNew,jdbcType=BIGINT},
+      </if>
+      <if test="record.loanChange != null" >
+        loan_change = #{record.loanChange,jdbcType=BIGINT},
+      </if>
+      <if test="record.bizId != null" >
+        biz_id = #{record.bizId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update admin_loan
+    set id = #{record.id,jdbcType=INTEGER},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      loan_old = #{record.loanOld,jdbcType=BIGINT},
+      loan_new = #{record.loanNew,jdbcType=BIGINT},
+      loan_change = #{record.loanChange,jdbcType=BIGINT},
+      biz_id = #{record.bizId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.AdminLoan" >
+    update admin_loan
+    <set >
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanOld != null" >
+        loan_old = #{loanOld,jdbcType=BIGINT},
+      </if>
+      <if test="loanNew != null" >
+        loan_new = #{loanNew,jdbcType=BIGINT},
+      </if>
+      <if test="loanChange != null" >
+        loan_change = #{loanChange,jdbcType=BIGINT},
+      </if>
+      <if test="bizId != null" >
+        biz_id = #{bizId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.AdminLoan" >
+    update admin_loan
+    set admin_id = #{adminId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      loan_old = #{loanOld,jdbcType=BIGINT},
+      loan_new = #{loanNew,jdbcType=BIGINT},
+      loan_change = #{loanChange,jdbcType=BIGINT},
+      biz_id = #{bizId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

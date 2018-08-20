@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.ShopApplyAuditMapperCustom">
+	<select id="getShopList" parameterType="com.maomao.ssm.pojo.QueryVo"
+		resultType="com.maomao.ssm.pojo.ShopApplyAudit">
+		SELECT
+		*
+		FROM
+		user_apply ua LEFT JOIN user u ON ua.user_id = u.id
+		ORDER BY
+		ua.create_time DESC
+		limit
+		<if test="startRows != null">
+			limit #{startRows},#{pageSize}
+		</if>
+	</select>
+
+	<select id="getShopCount" resultType="Integer">
+		SELECT
+		count(0)
+		FROM
+		user_apply ua
+		LEFT JOIN
+		`user` u ON ua.user_id = u.id
+	</select>
+
+	<select id="getSearchUser" parameterType="com.maomao.ssm.pojo.QueryVo"
+		resultType="com.maomao.ssm.pojo.ShopApplyAudit">
+		SELECT
+		*
+		FROM
+		user_apply ua
+		LEFT JOIN `user` u ON ua.user_id = u.id
+		<where>
+			(
+			<trim prefixOverrides="AND | OR">
+				<if test="queryString !=null and queryString != ''">
+					ua.`name` LIKE '%${queryString}%'
+				</if>
+
+				<if test="queryString !=null and queryString != ''">
+					OR u.mobile LIKE '%${queryString}%'
+				</if>
+			</trim>
+			)
+		</where>
+		AND ua.`check_status` = 0 AND u. `status` = 0
+		ORDER BY
+		ua.create_time
+		DESC
+		LIMIT
+		<if test="startRows != null">
+			limit #{startRows},#{pageSize}
+		</if>
+	</select>
+</mapper>

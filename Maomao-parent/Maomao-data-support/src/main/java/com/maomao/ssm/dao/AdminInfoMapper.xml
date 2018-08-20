@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.AdminInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.AdminInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="leagl_person" property="leaglPerson" jdbcType="VARCHAR" />
+    <result column="legal_person_mobile_" property="legalPersonMobile" jdbcType="VARCHAR" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="bank_user" property="bankUser" jdbcType="VARCHAR" />
+    <result column="repayment_bank_account" property="repaymentBankAccount" jdbcType="VARCHAR" />
+    <result column="repayment_bank_name" property="repaymentBankName" jdbcType="VARCHAR" />
+    <result column="repayment_bank_user" property="repaymentBankUser" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
+    <result column="company_address" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="enclosure" property="enclosure" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="repay_time" property="repayTime" jdbcType="TIMESTAMP" />
+    <result column="mortage" property="mortage" jdbcType="BIGINT" />
+    <result column="loan" property="loan" jdbcType="BIGINT" />
+    <result column="accounts_bank" property="accountsBank" jdbcType="VARCHAR" />
+    <result column="repayment_accounts_bank" property="repaymentAccountsBank" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, admin_id, leagl_person, legal_person_mobile_, bank_account, bank_name, bank_user, 
+      repayment_bank_account, repayment_bank_name, repayment_bank_user, company_name, company_code, 
+      company_address, enclosure, create_time, modified_time, repay_time, mortage, loan, 
+      accounts_bank, repayment_accounts_bank, province, city, area, address, name, mobile
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.maomao.ssm.bean.AdminInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    id,admin_id,leagl_person,legal_person_mobile_,bank_account,bank_name,bank_user,repayment_bank_account,repayment_bank_name,repayment_bank_user,company_name,company_code,company_address,enclosure,create_time,modified_time,repay_time,mortage,loan,accounts_bank,repayment_accounts_bank,province,city,area,address,name,mobile
+    from admin_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.AdminInfoExample" >
+    delete from admin_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.AdminInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin_info (admin_id, leagl_person, legal_person_mobile_, 
+      bank_account, bank_name, bank_user, 
+      repayment_bank_account, repayment_bank_name, 
+      repayment_bank_user, company_name, company_code, 
+      company_address, enclosure, create_time, 
+      modified_time, repay_time, mortage, 
+      loan, accounts_bank, repayment_accounts_bank, 
+      province, city, area, 
+      address, name, mobile)
+    values (#{adminId,jdbcType=INTEGER}, #{leaglPerson,jdbcType=VARCHAR}, #{legalPersonMobile,jdbcType=VARCHAR}, 
+      #{bankAccount,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bankUser,jdbcType=VARCHAR}, 
+      #{repaymentBankAccount,jdbcType=VARCHAR}, #{repaymentBankName,jdbcType=VARCHAR}, 
+      #{repaymentBankUser,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{companyCode,jdbcType=VARCHAR}, 
+      #{companyAddress,jdbcType=VARCHAR}, #{enclosure,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{repayTime,jdbcType=TIMESTAMP}, #{mortage,jdbcType=BIGINT}, 
+      #{loan,jdbcType=BIGINT}, #{accountsBank,jdbcType=VARCHAR}, #{repaymentAccountsBank,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.AdminInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="leaglPerson != null" >
+        leagl_person,
+      </if>
+      <if test="legalPersonMobile != null" >
+        legal_person_mobile_,
+      </if>
+      <if test="bankAccount != null" >
+        bank_account,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="bankUser != null" >
+        bank_user,
+      </if>
+      <if test="repaymentBankAccount != null" >
+        repayment_bank_account,
+      </if>
+      <if test="repaymentBankName != null" >
+        repayment_bank_name,
+      </if>
+      <if test="repaymentBankUser != null" >
+        repayment_bank_user,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyCode != null" >
+        company_code,
+      </if>
+      <if test="companyAddress != null" >
+        company_address,
+      </if>
+      <if test="enclosure != null" >
+        enclosure,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+      <if test="repayTime != null" >
+        repay_time,
+      </if>
+      <if test="mortage != null" >
+        mortage,
+      </if>
+      <if test="loan != null" >
+        loan,
+      </if>
+      <if test="accountsBank != null" >
+        accounts_bank,
+      </if>
+      <if test="repaymentAccountsBank != null" >
+        repayment_accounts_bank,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="leaglPerson != null" >
+        #{leaglPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonMobile != null" >
+        #{legalPersonMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankUser != null" >
+        #{bankUser,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentBankAccount != null" >
+        #{repaymentBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentBankName != null" >
+        #{repaymentBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentBankUser != null" >
+        #{repaymentBankUser,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="enclosure != null" >
+        #{enclosure,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repayTime != null" >
+        #{repayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mortage != null" >
+        #{mortage,jdbcType=BIGINT},
+      </if>
+      <if test="loan != null" >
+        #{loan,jdbcType=BIGINT},
+      </if>
+      <if test="accountsBank != null" >
+        #{accountsBank,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentAccountsBank != null" >
+        #{repaymentAccountsBank,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.AdminInfoExample" resultType="java.lang.Integer" >
+    select count(*) from admin_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update admin_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminId != null" >
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.leaglPerson != null" >
+        leagl_person = #{record.leaglPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalPersonMobile != null" >
+        legal_person_mobile_ = #{record.legalPersonMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankAccount != null" >
+        bank_account = #{record.bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null" >
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankUser != null" >
+        bank_user = #{record.bankUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repaymentBankAccount != null" >
+        repayment_bank_account = #{record.repaymentBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repaymentBankName != null" >
+        repayment_bank_name = #{record.repaymentBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repaymentBankUser != null" >
+        repayment_bank_user = #{record.repaymentBankUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyName != null" >
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyCode != null" >
+        company_code = #{record.companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyAddress != null" >
+        company_address = #{record.companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enclosure != null" >
+        enclosure = #{record.enclosure,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null" >
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.repayTime != null" >
+        repay_time = #{record.repayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mortage != null" >
+        mortage = #{record.mortage,jdbcType=BIGINT},
+      </if>
+      <if test="record.loan != null" >
+        loan = #{record.loan,jdbcType=BIGINT},
+      </if>
+      <if test="record.accountsBank != null" >
+        accounts_bank = #{record.accountsBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repaymentAccountsBank != null" >
+        repayment_accounts_bank = #{record.repaymentAccountsBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null" >
+        area = #{record.area,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update admin_info
+    set id = #{record.id,jdbcType=INTEGER},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      leagl_person = #{record.leaglPerson,jdbcType=VARCHAR},
+      legal_person_mobile_ = #{record.legalPersonMobile,jdbcType=VARCHAR},
+      bank_account = #{record.bankAccount,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      bank_user = #{record.bankUser,jdbcType=VARCHAR},
+      repayment_bank_account = #{record.repaymentBankAccount,jdbcType=VARCHAR},
+      repayment_bank_name = #{record.repaymentBankName,jdbcType=VARCHAR},
+      repayment_bank_user = #{record.repaymentBankUser,jdbcType=VARCHAR},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      company_code = #{record.companyCode,jdbcType=VARCHAR},
+      company_address = #{record.companyAddress,jdbcType=VARCHAR},
+      enclosure = #{record.enclosure,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      repay_time = #{record.repayTime,jdbcType=TIMESTAMP},
+      mortage = #{record.mortage,jdbcType=BIGINT},
+      loan = #{record.loan,jdbcType=BIGINT},
+      accounts_bank = #{record.accountsBank,jdbcType=VARCHAR},
+      repayment_accounts_bank = #{record.repaymentAccountsBank,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.AdminInfo" >
+    update admin_info
+    <set >
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="leaglPerson != null" >
+        leagl_person = #{leaglPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPersonMobile != null" >
+        legal_person_mobile_ = #{legalPersonMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        bank_account = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankUser != null" >
+        bank_user = #{bankUser,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentBankAccount != null" >
+        repayment_bank_account = #{repaymentBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentBankName != null" >
+        repayment_bank_name = #{repaymentBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentBankUser != null" >
+        repayment_bank_user = #{repaymentBankUser,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null" >
+        company_code = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        company_address = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="enclosure != null" >
+        enclosure = #{enclosure,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repayTime != null" >
+        repay_time = #{repayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mortage != null" >
+        mortage = #{mortage,jdbcType=BIGINT},
+      </if>
+      <if test="loan != null" >
+        loan = #{loan,jdbcType=BIGINT},
+      </if>
+      <if test="accountsBank != null" >
+        accounts_bank = #{accountsBank,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentAccountsBank != null" >
+        repayment_accounts_bank = #{repaymentAccountsBank,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.AdminInfo" >
+    update admin_info
+    set admin_id = #{adminId,jdbcType=INTEGER},
+      leagl_person = #{leaglPerson,jdbcType=VARCHAR},
+      legal_person_mobile_ = #{legalPersonMobile,jdbcType=VARCHAR},
+      bank_account = #{bankAccount,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      bank_user = #{bankUser,jdbcType=VARCHAR},
+      repayment_bank_account = #{repaymentBankAccount,jdbcType=VARCHAR},
+      repayment_bank_name = #{repaymentBankName,jdbcType=VARCHAR},
+      repayment_bank_user = #{repaymentBankUser,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_code = #{companyCode,jdbcType=VARCHAR},
+      company_address = #{companyAddress,jdbcType=VARCHAR},
+      enclosure = #{enclosure,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      repay_time = #{repayTime,jdbcType=TIMESTAMP},
+      mortage = #{mortage,jdbcType=BIGINT},
+      loan = #{loan,jdbcType=BIGINT},
+      accounts_bank = #{accountsBank,jdbcType=VARCHAR},
+      repayment_accounts_bank = #{repaymentAccountsBank,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

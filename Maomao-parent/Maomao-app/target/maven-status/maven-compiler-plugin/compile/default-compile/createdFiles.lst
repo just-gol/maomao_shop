@@ -1,0 +1,15 @@
+com\maomao\ssm\controller\UserController.class
+com\maomao\ssm\controller\HomeController.class
+com\maomao\ssm\controller\OrderController.class
+com\maomao\ssm\controller\ShopController.class
+com\maomao\ssm\controller\v2\ShopControllerV2.class
+com\maomao\ssm\controller\GoodsController.class
+com\maomao\ssm\controller\CategoryController.class
+com\maomao\ssm\controller\LoginController.class
+com\maomao\ssm\controller\v2\HomeControllerV2.class
+com\maomao\ssm\test\TestController.class
+com\maomao\ssm\controller\CouponController.class
+com\maomao\ssm\controller\v2\CategoryControllerV2.class
+com\maomao\ssm\interceptor\LoginIntercept.class
+com\maomao\ssm\interceptor\SignatureIntercept.class
+com\maomao\ssm\controller\UserMessageController.class

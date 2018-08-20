@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 添加 DUBBO SCHEMA -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 应用名 -->
+    <dubbo:application name="dubbo-provider"/>
+    <!-- 连接到哪个本地注册中心 -->
+    <dubbo:registry id="dubbo" address="${dubbo.registry.address}"/>
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="${dubbo.protocol.port}"/>
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.common.AdminLoanService" ref="adminLoanServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.common.AdminMoneyService" ref="adminMoneyServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.common.UserCreditService" ref="userCreditServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.common.UserMoneyService" ref="userMoneyServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.common.NoticeRecordService" ref="noticeRecordServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.common.CouponRecordService" ref="couponRecordServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.UserService" ref="userServiceImpl"/>
+	<dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.LoginService" ref="loginServiceImpl"/> 
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.HomeService" ref="homeServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.CategoryService" ref="categoryServiceImpl"/>
+    <dubbo:service registry="dubbo" interface="com.maomao.ssm.service.GoodsService" ref="goodsServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.UserMessageService" ref="userMessageServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.ShopService" ref="shopServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.OrderService" ref="orderServiceImpl"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.CouponService" ref="couponServiceImpl"/>
+    
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.v2.CategoryServiceV2" ref="categoryServiceImplV2"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.v2.HomeServiceV2" ref="homeServiceImplV2"/>
+    <dubbo:service registry="dubbo"  interface="com.maomao.ssm.service.v2.ShopServiceV2" ref="shopServiceImplV2"/>
+</beans>

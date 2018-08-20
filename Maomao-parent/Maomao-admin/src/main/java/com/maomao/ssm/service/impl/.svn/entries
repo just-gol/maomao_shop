@@ -1,0 +1,34 @@
+10
+
+dir
+2772
+svn://192.168.1.205/maomao/Maomao-parent/Maomao-admin/src/main/java/com/maomao/ssm/service/impl
+svn://192.168.1.205
+
+
+
+2018-07-24T07:59:02.271438Z
+2743
+lisiyi
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+c3920e9a-504b-41cf-9408-f0014abfc381
+
+admin
+dir
+
+common
+dir
+

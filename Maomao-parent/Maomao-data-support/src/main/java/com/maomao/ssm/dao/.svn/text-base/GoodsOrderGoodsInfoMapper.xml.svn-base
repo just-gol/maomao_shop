@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsOrderGoodsInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.GoodsOrderGoodsInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="goods_order_goods_id" property="goodsOrderGoodsId" jdbcType="INTEGER" />
+    <result column="goods_overstock_id" property="goodsOverstockId" jdbcType="INTEGER" />
+    <result column="goods_overstock_info_id" property="goodsOverstockInfoId" jdbcType="INTEGER" />
+    <result column="goods_overstock_info_user_id" property="goodsOverstockInfoUserId" jdbcType="INTEGER" />
+    <result column="goods_overstock_user_id" property="goodsOverstockUserId" jdbcType="INTEGER" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="sku" property="sku" jdbcType="VARCHAR" />
+    <result column="price_purchase" property="pricePurchase" jdbcType="BIGINT" />
+    <result column="price_sales" property="priceSales" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="use_end_time" property="useEndTime" jdbcType="TIMESTAMP" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="express" property="express" jdbcType="VARCHAR" />
+    <result column="express_num" property="expressNum" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="addrezz" property="addrezz" jdbcType="VARCHAR" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, order_id, goods_order_goods_id, goods_overstock_id, goods_overstock_info_id, 
+      goods_overstock_info_user_id, goods_overstock_user_id, goods_name, sku, price_purchase, 
+      price_sales, type, use_end_time, img, admin_id, user_id, status, express, express_num, 
+      code, create_time, addrezz, modified_time
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods_order_goods_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    id,order_id,goods_order_goods_id,goods_overstock_id,goods_overstock_info_id,goods_overstock_info_user_id,goods_overstock_user_id,goods_name,sku,price_purchase,price_sales,type,use_end_time,img,admin_id,user_id,status,express,express_num,code,create_time,addrezz,modified_time
+    from goods_order_goods_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_order_goods_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsInfoExample" >
+    delete from goods_order_goods_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_order_goods_info (order_id, goods_order_goods_id, goods_overstock_id, 
+      goods_overstock_info_id, goods_overstock_info_user_id, 
+      goods_overstock_user_id, goods_name, sku, 
+      price_purchase, price_sales, type, 
+      use_end_time, img, admin_id, 
+      user_id, status, express, 
+      express_num, code, create_time, 
+      addrezz, modified_time)
+    values (#{orderId,jdbcType=INTEGER}, #{goodsOrderGoodsId,jdbcType=INTEGER}, #{goodsOverstockId,jdbcType=INTEGER}, 
+      #{goodsOverstockInfoId,jdbcType=INTEGER}, #{goodsOverstockInfoUserId,jdbcType=INTEGER}, 
+      #{goodsOverstockUserId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{sku,jdbcType=VARCHAR}, 
+      #{pricePurchase,jdbcType=BIGINT}, #{priceSales,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, 
+      #{useEndTime,jdbcType=TIMESTAMP}, #{img,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{express,jdbcType=VARCHAR}, 
+      #{expressNum,jdbcType=VARCHAR}, #{code,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{addrezz,jdbcType=VARCHAR}, #{modifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_order_goods_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="goodsOrderGoodsId != null" >
+        goods_order_goods_id,
+      </if>
+      <if test="goodsOverstockId != null" >
+        goods_overstock_id,
+      </if>
+      <if test="goodsOverstockInfoId != null" >
+        goods_overstock_info_id,
+      </if>
+      <if test="goodsOverstockInfoUserId != null" >
+        goods_overstock_info_user_id,
+      </if>
+      <if test="goodsOverstockUserId != null" >
+        goods_overstock_user_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="sku != null" >
+        sku,
+      </if>
+      <if test="pricePurchase != null" >
+        price_purchase,
+      </if>
+      <if test="priceSales != null" >
+        price_sales,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="useEndTime != null" >
+        use_end_time,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="express != null" >
+        express,
+      </if>
+      <if test="expressNum != null" >
+        express_num,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="addrezz != null" >
+        addrezz,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOrderGoodsId != null" >
+        #{goodsOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOverstockId != null" >
+        #{goodsOverstockId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOverstockInfoId != null" >
+        #{goodsOverstockInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOverstockInfoUserId != null" >
+        #{goodsOverstockInfoUserId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOverstockUserId != null" >
+        #{goodsOverstockUserId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="sku != null" >
+        #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="pricePurchase != null" >
+        #{pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="priceSales != null" >
+        #{priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="useEndTime != null" >
+        #{useEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="express != null" >
+        #{express,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNum != null" >
+        #{expressNum,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addrezz != null" >
+        #{addrezz,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsInfoExample" resultType="java.lang.Integer" >
+    select count(*) from goods_order_goods_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goods_order_goods_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsOrderGoodsId != null" >
+        goods_order_goods_id = #{record.goodsOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsOverstockId != null" >
+        goods_overstock_id = #{record.goodsOverstockId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsOverstockInfoId != null" >
+        goods_overstock_info_id = #{record.goodsOverstockInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsOverstockInfoUserId != null" >
+        goods_overstock_info_user_id = #{record.goodsOverstockInfoUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsOverstockUserId != null" >
+        goods_overstock_user_id = #{record.goodsOverstockUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsName != null" >
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sku != null" >
+        sku = #{record.sku,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pricePurchase != null" >
+        price_purchase = #{record.pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="record.priceSales != null" >
+        price_sales = #{record.priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.useEndTime != null" >
+        use_end_time = #{record.useEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.img != null" >
+        img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminId != null" >
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.express != null" >
+        express = #{record.express,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressNum != null" >
+        express_num = #{record.expressNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.addrezz != null" >
+        addrezz = #{record.addrezz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifiedTime != null" >
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goods_order_goods_info
+    set id = #{record.id,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=INTEGER},
+      goods_order_goods_id = #{record.goodsOrderGoodsId,jdbcType=INTEGER},
+      goods_overstock_id = #{record.goodsOverstockId,jdbcType=INTEGER},
+      goods_overstock_info_id = #{record.goodsOverstockInfoId,jdbcType=INTEGER},
+      goods_overstock_info_user_id = #{record.goodsOverstockInfoUserId,jdbcType=INTEGER},
+      goods_overstock_user_id = #{record.goodsOverstockUserId,jdbcType=INTEGER},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      sku = #{record.sku,jdbcType=VARCHAR},
+      price_purchase = #{record.pricePurchase,jdbcType=BIGINT},
+      price_sales = #{record.priceSales,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=TINYINT},
+      use_end_time = #{record.useEndTime,jdbcType=TIMESTAMP},
+      img = #{record.img,jdbcType=VARCHAR},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
+      express = #{record.express,jdbcType=VARCHAR},
+      express_num = #{record.expressNum,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=CHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      addrezz = #{record.addrezz,jdbcType=VARCHAR},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsInfo" >
+    update goods_order_goods_info
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOrderGoodsId != null" >
+        goods_order_goods_id = #{goodsOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOverstockId != null" >
+        goods_overstock_id = #{goodsOverstockId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOverstockInfoId != null" >
+        goods_overstock_info_id = #{goodsOverstockInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOverstockInfoUserId != null" >
+        goods_overstock_info_user_id = #{goodsOverstockInfoUserId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsOverstockUserId != null" >
+        goods_overstock_user_id = #{goodsOverstockUserId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="sku != null" >
+        sku = #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="pricePurchase != null" >
+        price_purchase = #{pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="priceSales != null" >
+        price_sales = #{priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="useEndTime != null" >
+        use_end_time = #{useEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="express != null" >
+        express = #{express,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNum != null" >
+        express_num = #{expressNum,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addrezz != null" >
+        addrezz = #{addrezz,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsInfo" >
+    update goods_order_goods_info
+    set order_id = #{orderId,jdbcType=INTEGER},
+      goods_order_goods_id = #{goodsOrderGoodsId,jdbcType=INTEGER},
+      goods_overstock_id = #{goodsOverstockId,jdbcType=INTEGER},
+      goods_overstock_info_id = #{goodsOverstockInfoId,jdbcType=INTEGER},
+      goods_overstock_info_user_id = #{goodsOverstockInfoUserId,jdbcType=INTEGER},
+      goods_overstock_user_id = #{goodsOverstockUserId,jdbcType=INTEGER},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      sku = #{sku,jdbcType=VARCHAR},
+      price_purchase = #{pricePurchase,jdbcType=BIGINT},
+      price_sales = #{priceSales,jdbcType=BIGINT},
+      type = #{type,jdbcType=TINYINT},
+      use_end_time = #{useEndTime,jdbcType=TIMESTAMP},
+      img = #{img,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      express = #{express,jdbcType=VARCHAR},
+      express_num = #{expressNum,jdbcType=VARCHAR},
+      code = #{code,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      addrezz = #{addrezz,jdbcType=VARCHAR},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

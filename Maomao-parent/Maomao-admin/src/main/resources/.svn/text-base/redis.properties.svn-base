@@ -1,0 +1,5 @@
+#session的过期时间(30天)
+SESSION_EXPIRE_TIME=2592000
+
+#cookie的过期时间(30天)
+COOKIE_EXPIRE_TIME=2592000

@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.Goods" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price_purchase" property="pricePurchase" jdbcType="BIGINT" />
+    <result column="price_sales" property="priceSales" jdbcType="BIGINT" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="stock_sham" property="stockSham" jdbcType="INTEGER" />
+    <result column="sales" property="sales" jdbcType="INTEGER" />
+    <result column="sales_sham" property="salesSham" jdbcType="INTEGER" />
+    <result column="reword" property="reword" jdbcType="BIGINT" />
+    <result column="rebate" property="rebate" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="crate_time" property="crateTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="TINYINT" />
+    <result column="get_way" property="getWay" jdbcType="TINYINT" />
+    <result column="check_admin" property="checkAdmin" jdbcType="INTEGER" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="check_reason" property="checkReason" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="limit_time" property="limitTime" jdbcType="TIMESTAMP" />
+    <result column="min_price" property="minPrice" jdbcType="BIGINT" />
+    <result column="max_price" property="maxPrice" jdbcType="BIGINT" />
+    <result column="deposit" property="deposit" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.maomao.ssm.bean.GoodsWithBLOBs" extends="BaseResultMap" >
+    <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
+    <result column="imgs" property="imgs" jdbcType="LONGVARCHAR" />
+    <result column="param" property="param" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, item_id, name, price_purchase, price_sales, category_id, stock, stock_sham, sales, 
+      sales_sham, reword, rebate, status, crate_time, modified_time, brand_id, service_id, 
+      pay_type, get_way, check_admin, check_time, check_reason, type, admin_id, limit_time, 
+      min_price, max_price, deposit, sort
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <sql id="Blob_Column_List" >
+    detail, imgs, param
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.maomao.ssm.bean.GoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.maomao.ssm.bean.GoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    id,item_id,name,price_purchase,price_sales,category_id,stock,stock_sham,sales,sales_sham,reword,rebate,status,crate_time,modified_time,brand_id,service_id,pay_type,get_way,check_admin,check_time,check_reason,type,admin_id,limit_time,min_price,max_price,deposit,sort,detail,imgs,param
+    ,
+    <include refid="Blob_Column_List" />
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.GoodsExample" >
+    delete from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.GoodsWithBLOBs" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods (item_id, name, price_purchase, 
+      price_sales, category_id, stock, 
+      stock_sham, sales, sales_sham, 
+      reword, rebate, status, 
+      crate_time, modified_time, brand_id, 
+      service_id, pay_type, get_way, 
+      check_admin, check_time, check_reason, 
+      type, admin_id, limit_time, 
+      min_price, max_price, deposit, 
+      sort, detail, imgs, 
+      param)
+    values (#{itemId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{pricePurchase,jdbcType=BIGINT}, 
+      #{priceSales,jdbcType=BIGINT}, #{categoryId,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, 
+      #{stockSham,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER}, #{salesSham,jdbcType=INTEGER}, 
+      #{reword,jdbcType=BIGINT}, #{rebate,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, 
+      #{crateTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}, #{brandId,jdbcType=INTEGER}, 
+      #{serviceId,jdbcType=VARCHAR}, #{payType,jdbcType=TINYINT}, #{getWay,jdbcType=TINYINT}, 
+      #{checkAdmin,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, #{checkReason,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT}, #{adminId,jdbcType=INTEGER}, #{limitTime,jdbcType=TIMESTAMP}, 
+      #{minPrice,jdbcType=BIGINT}, #{maxPrice,jdbcType=BIGINT}, #{deposit,jdbcType=BIGINT}, 
+      #{sort,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR}, #{imgs,jdbcType=LONGVARCHAR}, 
+      #{param,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.GoodsWithBLOBs" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pricePurchase != null" >
+        price_purchase,
+      </if>
+      <if test="priceSales != null" >
+        price_sales,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="stockSham != null" >
+        stock_sham,
+      </if>
+      <if test="sales != null" >
+        sales,
+      </if>
+      <if test="salesSham != null" >
+        sales_sham,
+      </if>
+      <if test="reword != null" >
+        reword,
+      </if>
+      <if test="rebate != null" >
+        rebate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="crateTime != null" >
+        crate_time,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="serviceId != null" >
+        service_id,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="getWay != null" >
+        get_way,
+      </if>
+      <if test="checkAdmin != null" >
+        check_admin,
+      </if>
+      <if test="checkTime != null" >
+        check_time,
+      </if>
+      <if test="checkReason != null" >
+        check_reason,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="limitTime != null" >
+        limit_time,
+      </if>
+      <if test="minPrice != null" >
+        min_price,
+      </if>
+      <if test="maxPrice != null" >
+        max_price,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="imgs != null" >
+        imgs,
+      </if>
+      <if test="param != null" >
+        param,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pricePurchase != null" >
+        #{pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="priceSales != null" >
+        #{priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="stockSham != null" >
+        #{stockSham,jdbcType=INTEGER},
+      </if>
+      <if test="sales != null" >
+        #{sales,jdbcType=INTEGER},
+      </if>
+      <if test="salesSham != null" >
+        #{salesSham,jdbcType=INTEGER},
+      </if>
+      <if test="reword != null" >
+        #{reword,jdbcType=BIGINT},
+      </if>
+      <if test="rebate != null" >
+        #{rebate,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="crateTime != null" >
+        #{crateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="getWay != null" >
+        #{getWay,jdbcType=TINYINT},
+      </if>
+      <if test="checkAdmin != null" >
+        #{checkAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkReason != null" >
+        #{checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="limitTime != null" >
+        #{limitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="minPrice != null" >
+        #{minPrice,jdbcType=BIGINT},
+      </if>
+      <if test="maxPrice != null" >
+        #{maxPrice,jdbcType=BIGINT},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="imgs != null" >
+        #{imgs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="param != null" >
+        #{param,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.GoodsExample" resultType="java.lang.Integer" >
+    select count(*) from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goods
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pricePurchase != null" >
+        price_purchase = #{record.pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="record.priceSales != null" >
+        price_sales = #{record.priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stock != null" >
+        stock = #{record.stock,jdbcType=INTEGER},
+      </if>
+      <if test="record.stockSham != null" >
+        stock_sham = #{record.stockSham,jdbcType=INTEGER},
+      </if>
+      <if test="record.sales != null" >
+        sales = #{record.sales,jdbcType=INTEGER},
+      </if>
+      <if test="record.salesSham != null" >
+        sales_sham = #{record.salesSham,jdbcType=INTEGER},
+      </if>
+      <if test="record.reword != null" >
+        reword = #{record.reword,jdbcType=BIGINT},
+      </if>
+      <if test="record.rebate != null" >
+        rebate = #{record.rebate,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.crateTime != null" >
+        crate_time = #{record.crateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null" >
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.brandId != null" >
+        brand_id = #{record.brandId,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceId != null" >
+        service_id = #{record.serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payType != null" >
+        pay_type = #{record.payType,jdbcType=TINYINT},
+      </if>
+      <if test="record.getWay != null" >
+        get_way = #{record.getWay,jdbcType=TINYINT},
+      </if>
+      <if test="record.checkAdmin != null" >
+        check_admin = #{record.checkAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkTime != null" >
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkReason != null" >
+        check_reason = #{record.checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.adminId != null" >
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.limitTime != null" >
+        limit_time = #{record.limitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.minPrice != null" >
+        min_price = #{record.minPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.maxPrice != null" >
+        max_price = #{record.maxPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.deposit != null" >
+        deposit = #{record.deposit,jdbcType=BIGINT},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.detail != null" >
+        detail = #{record.detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.imgs != null" >
+        imgs = #{record.imgs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.param != null" >
+        param = #{record.param,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update goods
+    set id = #{record.id,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      price_purchase = #{record.pricePurchase,jdbcType=BIGINT},
+      price_sales = #{record.priceSales,jdbcType=BIGINT},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      stock = #{record.stock,jdbcType=INTEGER},
+      stock_sham = #{record.stockSham,jdbcType=INTEGER},
+      sales = #{record.sales,jdbcType=INTEGER},
+      sales_sham = #{record.salesSham,jdbcType=INTEGER},
+      reword = #{record.reword,jdbcType=BIGINT},
+      rebate = #{record.rebate,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=TINYINT},
+      crate_time = #{record.crateTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      brand_id = #{record.brandId,jdbcType=INTEGER},
+      service_id = #{record.serviceId,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=TINYINT},
+      get_way = #{record.getWay,jdbcType=TINYINT},
+      check_admin = #{record.checkAdmin,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      check_reason = #{record.checkReason,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      limit_time = #{record.limitTime,jdbcType=TIMESTAMP},
+      min_price = #{record.minPrice,jdbcType=BIGINT},
+      max_price = #{record.maxPrice,jdbcType=BIGINT},
+      deposit = #{record.deposit,jdbcType=BIGINT},
+      sort = #{record.sort,jdbcType=INTEGER},
+      detail = #{record.detail,jdbcType=LONGVARCHAR},
+      imgs = #{record.imgs,jdbcType=LONGVARCHAR},
+      param = #{record.param,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goods
+    set id = #{record.id,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      price_purchase = #{record.pricePurchase,jdbcType=BIGINT},
+      price_sales = #{record.priceSales,jdbcType=BIGINT},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      stock = #{record.stock,jdbcType=INTEGER},
+      stock_sham = #{record.stockSham,jdbcType=INTEGER},
+      sales = #{record.sales,jdbcType=INTEGER},
+      sales_sham = #{record.salesSham,jdbcType=INTEGER},
+      reword = #{record.reword,jdbcType=BIGINT},
+      rebate = #{record.rebate,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=TINYINT},
+      crate_time = #{record.crateTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      brand_id = #{record.brandId,jdbcType=INTEGER},
+      service_id = #{record.serviceId,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=TINYINT},
+      get_way = #{record.getWay,jdbcType=TINYINT},
+      check_admin = #{record.checkAdmin,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      check_reason = #{record.checkReason,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      limit_time = #{record.limitTime,jdbcType=TIMESTAMP},
+      min_price = #{record.minPrice,jdbcType=BIGINT},
+      max_price = #{record.maxPrice,jdbcType=BIGINT},
+      deposit = #{record.deposit,jdbcType=BIGINT},
+      sort = #{record.sort,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.GoodsWithBLOBs" >
+    update goods
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pricePurchase != null" >
+        price_purchase = #{pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="priceSales != null" >
+        price_sales = #{priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="stockSham != null" >
+        stock_sham = #{stockSham,jdbcType=INTEGER},
+      </if>
+      <if test="sales != null" >
+        sales = #{sales,jdbcType=INTEGER},
+      </if>
+      <if test="salesSham != null" >
+        sales_sham = #{salesSham,jdbcType=INTEGER},
+      </if>
+      <if test="reword != null" >
+        reword = #{reword,jdbcType=BIGINT},
+      </if>
+      <if test="rebate != null" >
+        rebate = #{rebate,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="crateTime != null" >
+        crate_time = #{crateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null" >
+        service_id = #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="getWay != null" >
+        get_way = #{getWay,jdbcType=TINYINT},
+      </if>
+      <if test="checkAdmin != null" >
+        check_admin = #{checkAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null" >
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkReason != null" >
+        check_reason = #{checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="limitTime != null" >
+        limit_time = #{limitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="minPrice != null" >
+        min_price = #{minPrice,jdbcType=BIGINT},
+      </if>
+      <if test="maxPrice != null" >
+        max_price = #{maxPrice,jdbcType=BIGINT},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="imgs != null" >
+        imgs = #{imgs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="param != null" >
+        param = #{param,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.maomao.ssm.bean.GoodsWithBLOBs" >
+    update goods
+    set item_id = #{itemId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      price_purchase = #{pricePurchase,jdbcType=BIGINT},
+      price_sales = #{priceSales,jdbcType=BIGINT},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER},
+      stock_sham = #{stockSham,jdbcType=INTEGER},
+      sales = #{sales,jdbcType=INTEGER},
+      sales_sham = #{salesSham,jdbcType=INTEGER},
+      reword = #{reword,jdbcType=BIGINT},
+      rebate = #{rebate,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      crate_time = #{crateTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      service_id = #{serviceId,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=TINYINT},
+      get_way = #{getWay,jdbcType=TINYINT},
+      check_admin = #{checkAdmin,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      check_reason = #{checkReason,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      limit_time = #{limitTime,jdbcType=TIMESTAMP},
+      min_price = #{minPrice,jdbcType=BIGINT},
+      max_price = #{maxPrice,jdbcType=BIGINT},
+      deposit = #{deposit,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=INTEGER},
+      detail = #{detail,jdbcType=LONGVARCHAR},
+      imgs = #{imgs,jdbcType=LONGVARCHAR},
+      param = #{param,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.Goods" >
+    update goods
+    set item_id = #{itemId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      price_purchase = #{pricePurchase,jdbcType=BIGINT},
+      price_sales = #{priceSales,jdbcType=BIGINT},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER},
+      stock_sham = #{stockSham,jdbcType=INTEGER},
+      sales = #{sales,jdbcType=INTEGER},
+      sales_sham = #{salesSham,jdbcType=INTEGER},
+      reword = #{reword,jdbcType=BIGINT},
+      rebate = #{rebate,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      crate_time = #{crateTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      service_id = #{serviceId,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=TINYINT},
+      get_way = #{getWay,jdbcType=TINYINT},
+      check_admin = #{checkAdmin,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      check_reason = #{checkReason,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      limit_time = #{limitTime,jdbcType=TIMESTAMP},
+      min_price = #{minPrice,jdbcType=BIGINT},
+      max_price = #{maxPrice,jdbcType=BIGINT},
+      deposit = #{deposit,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

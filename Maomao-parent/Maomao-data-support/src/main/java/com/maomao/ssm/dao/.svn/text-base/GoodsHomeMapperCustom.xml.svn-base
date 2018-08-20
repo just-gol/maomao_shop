@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsHomeMapperCustom">
+	<resultMap id="BaseResultMap" type="com.maomao.ssm.bean.GoodsHomeCustom" >
+		<result column="goods_id" property="id" jdbcType="INTEGER" />
+		<result column="goods_homepage_category_id" property="goodsHomepageCategoryId" jdbcType="INTEGER" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="category" property="category" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="BIGINT" />
+		<result column="sales" property="sales" jdbcType="INTEGER" />
+		<result column="salesSham" property="sales_sham" jdbcType="INTEGER" />
+		<result column="rebate" property="rebate" jdbcType="BIGINT" />
+		<result column="imgs" property="imgs" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="stock" property="stock" jdbcType="INTEGER" />
+		<result column="deposit" property="deposit" jdbcType="BIGINT" />
+		<result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!--首页商品获取sort最大值  -->
+	<select id="getGoodsHomeSort" resultType="com.maomao.ssm.bean.GoodsHome">
+		select * from goods_home g ORDER BY g.sort DESC LIMIT 0,1;
+	</select>
+	
+	<!--首页商品获取sort最小值  -->
+	<select id="getGoodsHomeMinSort" resultType="com.maomao.ssm.bean.GoodsHome">
+		select * from goods_home g ORDER BY g.sort ASC LIMIT 0,1;
+	</select>
+	
+	<!--获取首页商品列表  -->
+	<select id="getGoodsHomeList" resultType="Integer">
+		SELECT
+<!-- 			a.id goodsHomeId,
+			b.id goodsId,
+			c.id goodsHomepageCategoryId,
+			a.sort,
+			b.`name` goodsName,
+			b.imgs goodsImgs,
+			b.min_price,
+			c.name homepageCategoryName,
+			c.img homepageCategoryImg
+ -->
+ 		DISTINCT 
+ 		goods_homepage_category_id
+		FROM
+			goods_home a,
+			goods b,
+			goods_homepage_category c
+		WHERE
+			b.`status` = 2 <!--上架  -->
+		AND 
+			c.`status` = 1 <!--启动  -->
+		AND
+			 a.goods_id = b.id
+		AND 
+			a.goods_homepage_category_id = c.id
+		ORDER BY
+			a.sort
+			DESC 
+
+	</select>
+	
+	<!--首页分类商品获取sort最大值  -->
+	<select id="getGoodsHomepageCategorySort" resultType="Integer">
+		select g.sort from goods_homepage_category g WHERE g.status=1 ORDER BY g.sort DESC LIMIT 0,1;
+	</select>
+	
+	<select id="getGoodsHomeCustomWithGoods" resultMap="BaseResultMap">
+		SELECT a.goods_id,a.goods_homepage_category_id,a.sort,a.category,b.min_price AS price,b.sales,b.sales_sham,b.rebate,b.imgs,b.name,b.stock,b.deposit,b.service_id
+		FROM goods_home AS a
+		JOIN goods AS b
+		ON a.goods_id=b.id
+		WHERE a.goods_homepage_category_id=#{homepageCategoryId}
+		AND a.category=#{category};
+	</select>
+	<select id="getGoodsHomeCustomWithGoodsOverstock" resultMap="BaseResultMap">
+		SELECT a.goods_id,a.goods_homepage_category_id,a.sort,a.category,b.price,b.sales,b.sales_sham,b.rebate,b.imgs,b.name,b.stock,b.service_id
+		FROM goods_home AS a
+		JOIN goods_overstock AS b
+		ON a.goods_id=b.id
+		WHERE a.goods_homepage_category_id=#{homepageCategoryId}
+		AND a.category=#{category};
+	</select>
+	
+	
+</mapper>

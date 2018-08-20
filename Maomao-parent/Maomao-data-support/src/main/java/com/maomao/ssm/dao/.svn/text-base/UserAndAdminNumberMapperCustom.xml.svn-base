@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.UserAndAdminNumberMapperCustom">
+	<sql id="queryConditions_where">
+		<where>
+			<trim prefixOverrides="AND |OR">
+				(
+				<if test="_parameter !=null ">
+					name LIKE '%${_parameter}%' OR mobile LIKE '%${_parameter}%'
+				</if>
+				)
+			</trim>
+		</where>
+	</sql>
+
+	<select id="queryInternal" parameterType="String" resultType="Integer">
+		SELECT COUNT(id) FROM `admin`
+		<!-- <include refid="queryConditions_where" /> -->
+		WHERE 1=1
+		<if test="_parameter !=null ">
+			and (name LIKE '%${_parameter}%' OR mobile LIKE '%${_parameter}%')
+		</if>
+		and `type` = 0 and `status` != -1
+	</select>
+
+	<select id="querySupplier" parameterType="String" resultType="Integer">
+		SELECT COUNT(id) FROM `admin`
+		<!-- <include refid="queryConditions_where" /> -->
+		WHERE 1=1
+		<if test="_parameter !=null ">
+			and (name LIKE '%${_parameter}%' OR mobile LIKE '%${_parameter}%')
+		</if>
+		and `type` = 1 and `status` != -1
+	</select>
+
+	<select id="queryOrdinaryNum" parameterType="String" resultType="Integer">
+		SELECT COUNT(id) FROM `user`
+		<!-- <include refid="queryConditions_where" /> -->
+		WHERE 1=1
+		<if test="_parameter !=null ">
+			and (name LIKE '%${_parameter}%' OR mobile LIKE '%${_parameter}%')
+		</if>
+		and `type` = 0 and `status` != -1
+	</select>
+
+	<select id="queryIndividual" parameterType="String" resultType="Integer">
+		SELECT COUNT(id) FROM `user`
+		<!-- <include refid="queryConditions_where" /> -->
+		WHERE 1=1
+		<if test="_parameter !=null ">
+			and (name LIKE '%${_parameter}%' OR mobile LIKE '%${_parameter}%')
+		</if>
+		and `type` = 1 and `status` != -1 and check_status=3
+	</select>
+
+	<!--获取商家用户的总记录数 -->
+	<select id="getIndividualTotal" parameterType="String"
+		resultType="Integer">
+		SELECT COUNT(*)
+		FROM
+		`user` a LEFT JOIN user_apply b
+		ON
+		a.id = b.user_id
+		<where>
+			<trim prefixOverrides="AND | OR">
+				<if test="queryString !=null">
+					AND (a.name LIKE '%${queryString}%' OR a.mobile LIKE
+					'%${queryString}%' )
+				</if>
+				AND a.type=1 AND a.`status` !=-1 AND b.check_status=3 AND
+				a.check_status=3
+			</trim>
+		</where>
+	</select>
+
+	<!--获取管理员的总记录数 -->
+	<select id="getSupplierUserList" parameterType="String"
+		resultType="Integer">
+		SELECT COUNT(*)
+		FROM
+		admin a
+		<where>
+			<trim prefixOverrides="AND | OR">
+				<if test="queryString !=null">
+					AND (a.name LIKE '%${queryString}%' OR a.mobile LIKE
+					'%${queryString}%' )
+				</if>
+				AND a.type=1 AND a.`status`=0
+			</trim>
+		</where>
+	</select>
+
+	<!--内部 -->
+	<select id="getInternalList" parameterType="String" resultType="Integer">
+		SELECT COUNT(*)
+		FROM
+		admin a
+		<where>
+			<trim prefixOverrides="AND | OR">
+				<if test="queryString !=null">
+					AND (a.name LIKE '%${queryString}%' OR a.mobile LIKE
+					'%${queryString}%' )
+				</if>
+				AND a.type=0 AND a.`status`=0
+			</trim>
+		</where>
+	</select>
+
+	<!--开店申请数量 -->
+	<select id="getUserApplyTotal" parameterType="String"
+		resultType="Integer">
+		SELECT COUNT(*)
+		FROM
+		`user` a LEFT JOIN user_apply b
+		ON
+		a.id = b.user_id
+		<where>
+			<trim prefixOverrides="AND | OR">
+				<if test="queryString !=null">
+					AND (a.name LIKE '%${queryString}%' OR a.mobile LIKE
+					'%${queryString}%' )
+				</if>
+				AND a.`status` !=-1 AND b.check_status=1 AND a.check_status=1
+			</trim>
+		</where>
+	</select>
+
+	<!--开店列表 -->
+	<select id="getShopApplyAuditList" parameterType="com.maomao.ssm.pojo.Query"
+		resultType="com.maomao.ssm.pojo.ShopApplyAudit">
+		SELECT
+		b.id userApplyId,
+		b.create_time createTime,
+		b.name name,
+		a.mobile mobile
+		FROM
+		`user` a LEFT JOIN user_apply b
+		ON
+		a.id = b.user_id
+		<where>
+			<trim prefixOverrides="AND | OR">
+				<if test="queryString !=null">
+					AND (a.name LIKE '%${queryString}%' OR a.mobile LIKE '%${queryString}%' )
+				</if>
+				AND a.`status` !=-1 AND b.check_status=1 AND a.check_status=1 <!-- status:-1删除 
+					check_status:审核中 -->
+			</trim>
+		</where>
+		<if test="startRows != null">
+			LIMIT #{startRows},#{rows}
+		</if>
+	</select>
+</mapper>

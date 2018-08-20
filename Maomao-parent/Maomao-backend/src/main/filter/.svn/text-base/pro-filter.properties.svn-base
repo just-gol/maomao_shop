@@ -1,0 +1,5 @@
+dubbo.registry.address=zookeeper://172.31.112.42:2181
+dubbo.protocol.port=28280
+
+redis.host=172.31.112.42
+redis.port=6379

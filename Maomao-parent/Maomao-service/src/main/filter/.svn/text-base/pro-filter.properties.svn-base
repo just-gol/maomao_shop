@@ -1,0 +1,19 @@
+maomao.driverClass=com.mysql.jdbc.Driver
+maomao.jdbcUrl=jdbc:mysql://172.31.112.42:3306/ssm?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8
+maomao.user=mysql
+maomao.password=mao-mall.com2018
+
+dubbo.registry.address=zookeeper://172.31.112.42:2181
+dubbo.protocol.port=28080
+
+redis.host=172.31.112.42
+redis.port=6379
+
+maomao.yspay.path.parter.pkcs12 = /usr/local/cert/ysepay/cert/maomall.pfx
+maomao.yspay.password.parter.pkcs12 = mao-mall.com_ysepay_20180611
+maomao.yspay.path.yspay.public.cert = /usr/local/cert/ysepay/cert/businessgate.cer
+maomao.yspay.partner.id = hzblt
+maomao.yspay.seller.name = \u676d\u5dde\u535a\u4fd0\u7279\u7535\u5b50\u5546\u52a1\u6709\u9650\u516c\u53f8
+maomao.yspay.notify.url = http://app.mao-mall.com/maomao/order/updateOrderByYspayNotice.action
+maomao.yspay.return.url = http://app.mao-mall.com/#/orderOk
+maomao.yspay.gateway.url = https://openapi.ysepay.com/gateway.do

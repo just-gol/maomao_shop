@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsOrderGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.GoodsOrderGoods" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="category" property="category" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="biz_id" property="bizId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="reword" property="reword" jdbcType="BIGINT" />
+    <result column="rebate" property="rebate" jdbcType="BIGINT" />
+    <result column="imgs" property="imgs" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="price_purchase" property="pricePurchase" jdbcType="BIGINT" />
+    <result column="price_sales" property="priceSales" jdbcType="BIGINT" />
+    <result column="sku" property="sku" jdbcType="VARCHAR" />
+    <result column="sku_id" property="skuId" jdbcType="INTEGER" />
+    <result column="deposit" property="deposit" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, order_id, category, type, biz_id, name, num, reword, rebate, imgs, create_time, 
+      price_purchase, price_sales, sku, sku_id, deposit
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods_order_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    id,order_id,category,type,biz_id,name,num,reword,rebate,imgs,create_time,price_purchase,price_sales,sku,sku_id,deposit
+    from goods_order_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_order_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsExample" >
+    delete from goods_order_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.GoodsOrderGoods" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_order_goods (order_id, category, type, 
+      biz_id, name, num, reword, 
+      rebate, imgs, create_time, 
+      price_purchase, price_sales, sku, 
+      sku_id, deposit)
+    values (#{orderId,jdbcType=INTEGER}, #{category,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
+      #{bizId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{reword,jdbcType=BIGINT}, 
+      #{rebate,jdbcType=BIGINT}, #{imgs,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{pricePurchase,jdbcType=BIGINT}, #{priceSales,jdbcType=BIGINT}, #{sku,jdbcType=VARCHAR}, 
+      #{skuId,jdbcType=INTEGER}, #{deposit,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.GoodsOrderGoods" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_order_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="bizId != null" >
+        biz_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="reword != null" >
+        reword,
+      </if>
+      <if test="rebate != null" >
+        rebate,
+      </if>
+      <if test="imgs != null" >
+        imgs,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="pricePurchase != null" >
+        price_purchase,
+      </if>
+      <if test="priceSales != null" >
+        price_sales,
+      </if>
+      <if test="sku != null" >
+        sku,
+      </if>
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="bizId != null" >
+        #{bizId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="reword != null" >
+        #{reword,jdbcType=BIGINT},
+      </if>
+      <if test="rebate != null" >
+        #{rebate,jdbcType=BIGINT},
+      </if>
+      <if test="imgs != null" >
+        #{imgs,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pricePurchase != null" >
+        #{pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="priceSales != null" >
+        #{priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="sku != null" >
+        #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.GoodsOrderGoodsExample" resultType="java.lang.Integer" >
+    select count(*) from goods_order_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goods_order_goods
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.category != null" >
+        category = #{record.category,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.bizId != null" >
+        biz_id = #{record.bizId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.reword != null" >
+        reword = #{record.reword,jdbcType=BIGINT},
+      </if>
+      <if test="record.rebate != null" >
+        rebate = #{record.rebate,jdbcType=BIGINT},
+      </if>
+      <if test="record.imgs != null" >
+        imgs = #{record.imgs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pricePurchase != null" >
+        price_purchase = #{record.pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="record.priceSales != null" >
+        price_sales = #{record.priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="record.sku != null" >
+        sku = #{record.sku,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skuId != null" >
+        sku_id = #{record.skuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deposit != null" >
+        deposit = #{record.deposit,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goods_order_goods
+    set id = #{record.id,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=INTEGER},
+      category = #{record.category,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=TINYINT},
+      biz_id = #{record.bizId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      num = #{record.num,jdbcType=INTEGER},
+      reword = #{record.reword,jdbcType=BIGINT},
+      rebate = #{record.rebate,jdbcType=BIGINT},
+      imgs = #{record.imgs,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      price_purchase = #{record.pricePurchase,jdbcType=BIGINT},
+      price_sales = #{record.priceSales,jdbcType=BIGINT},
+      sku = #{record.sku,jdbcType=VARCHAR},
+      sku_id = #{record.skuId,jdbcType=INTEGER},
+      deposit = #{record.deposit,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.GoodsOrderGoods" >
+    update goods_order_goods
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="bizId != null" >
+        biz_id = #{bizId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="reword != null" >
+        reword = #{reword,jdbcType=BIGINT},
+      </if>
+      <if test="rebate != null" >
+        rebate = #{rebate,jdbcType=BIGINT},
+      </if>
+      <if test="imgs != null" >
+        imgs = #{imgs,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pricePurchase != null" >
+        price_purchase = #{pricePurchase,jdbcType=BIGINT},
+      </if>
+      <if test="priceSales != null" >
+        price_sales = #{priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="sku != null" >
+        sku = #{sku,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.GoodsOrderGoods" >
+    update goods_order_goods
+    set order_id = #{orderId,jdbcType=INTEGER},
+      category = #{category,jdbcType=INTEGER},
+      type = #{type,jdbcType=TINYINT},
+      biz_id = #{bizId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      reword = #{reword,jdbcType=BIGINT},
+      rebate = #{rebate,jdbcType=BIGINT},
+      imgs = #{imgs,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      price_purchase = #{pricePurchase,jdbcType=BIGINT},
+      price_sales = #{priceSales,jdbcType=BIGINT},
+      sku = #{sku,jdbcType=VARCHAR},
+      sku_id = #{skuId,jdbcType=INTEGER},
+      deposit = #{deposit,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

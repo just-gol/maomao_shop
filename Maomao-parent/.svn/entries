@@ -1,0 +1,89 @@
+10
+
+dir
+2772
+svn://192.168.1.205/maomao/Maomao-parent
+svn://192.168.1.205
+
+
+
+2018-07-26T01:58:41.861171Z
+2772
+wangzhaoyang
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+c3920e9a-504b-41cf-9408-f0014abfc381
+
+Maomao-admin
+dir
+
+Maomao-app
+dir
+
+Maomao-backend
+dir
+
+Maomao-commons
+dir
+
+Maomao-data-support
+dir
+
+Maomao-interface
+dir
+
+Maomao-service
+dir
+
+pom.xml
+file
+
+
+
+
+2018-07-10T10:05:00.717000Z
+cff52238cf35e63f67a337df7edd4b8a
+2018-06-21T07:16:50.160341Z
+2381
+huhengda
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8617
+
+src
+dir
+
+upload
+dir
+

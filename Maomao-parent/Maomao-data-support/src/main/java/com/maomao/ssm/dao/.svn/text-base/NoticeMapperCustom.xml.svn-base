@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.NoticeMapperCustomer">
+	<select id="getCountdownNoticeRecordList"  resultType="com.maomao.ssm.bean.Notice">
+		SELECT * FROM notice
+			WHERE 1=1 
+				and `status` != 2 and `status` != -1 and `type` = 0 and send_time &lt;= NOW();
+	</select>
+</mapper>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maomao.ssm.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="mobile" jdbcType="CHAR" property="mobile" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="invitation" jdbcType="CHAR" property="invitation" />
+    <result column="id_card" jdbcType="CHAR" property="idCard" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="img" jdbcType="TINYINT" property="img" />
+    <result column="money" jdbcType="BIGINT" property="money" />
+    <result column="credit_total" jdbcType="BIGINT" property="creditTotal" />
+    <result column="credit_surplus" jdbcType="BIGINT" property="creditSurplus" />
+    <result column="credit_real" jdbcType="TINYINT" property="creditReal" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+    <result column="check_status" jdbcType="TINYINT" property="checkStatus" />
+    <result column="accumulative_money" jdbcType="BIGINT" property="accumulativeMoney" />
+    <result column="repay_time" jdbcType="TIMESTAMP" property="repayTime" />
+    <result column="loan" jdbcType="BIGINT" property="loan" />
+    <result column="password_withdrawals" jdbcType="VARCHAR" property="passwordWithdrawals" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, nickname, mobile, password, type, status, invitation, id_card, name, img, money, 
+    credit_total, credit_surplus, credit_real, create_time, modified_time, check_status, 
+    accumulative_money, repay_time, loan, password_withdrawals
+  </sql>
+  <select id="selectByExample" parameterType="com.maomao.ssm.bean.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.UserExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user (nickname, mobile, password, 
+      type, status, invitation, 
+      id_card, name, img, money, 
+      credit_total, credit_surplus, credit_real, 
+      create_time, modified_time, check_status, 
+      accumulative_money, repay_time, loan, 
+      password_withdrawals)
+    values (#{nickname,jdbcType=VARCHAR}, #{mobile,jdbcType=CHAR}, #{password,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{invitation,jdbcType=CHAR}, 
+      #{idCard,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{img,jdbcType=TINYINT}, #{money,jdbcType=BIGINT}, 
+      #{creditTotal,jdbcType=BIGINT}, #{creditSurplus,jdbcType=BIGINT}, #{creditReal,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}, #{checkStatus,jdbcType=TINYINT}, 
+      #{accumulativeMoney,jdbcType=BIGINT}, #{repayTime,jdbcType=TIMESTAMP}, #{loan,jdbcType=BIGINT}, 
+      #{passwordWithdrawals,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="invitation != null">
+        invitation,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="creditTotal != null">
+        credit_total,
+      </if>
+      <if test="creditSurplus != null">
+        credit_surplus,
+      </if>
+      <if test="creditReal != null">
+        credit_real,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifiedTime != null">
+        modified_time,
+      </if>
+      <if test="checkStatus != null">
+        check_status,
+      </if>
+      <if test="accumulativeMoney != null">
+        accumulative_money,
+      </if>
+      <if test="repayTime != null">
+        repay_time,
+      </if>
+      <if test="loan != null">
+        loan,
+      </if>
+      <if test="passwordWithdrawals != null">
+        password_withdrawals,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="invitation != null">
+        #{invitation,jdbcType=CHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=TINYINT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=BIGINT},
+      </if>
+      <if test="creditTotal != null">
+        #{creditTotal,jdbcType=BIGINT},
+      </if>
+      <if test="creditSurplus != null">
+        #{creditSurplus,jdbcType=BIGINT},
+      </if>
+      <if test="creditReal != null">
+        #{creditReal,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStatus != null">
+        #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="accumulativeMoney != null">
+        #{accumulativeMoney,jdbcType=BIGINT},
+      </if>
+      <if test="repayTime != null">
+        #{repayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loan != null">
+        #{loan,jdbcType=BIGINT},
+      </if>
+      <if test="passwordWithdrawals != null">
+        #{passwordWithdrawals,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.UserExample" resultType="java.lang.Integer">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickname != null">
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=CHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.invitation != null">
+        invitation = #{record.invitation,jdbcType=CHAR},
+      </if>
+      <if test="record.idCard != null">
+        id_card = #{record.idCard,jdbcType=CHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.img != null">
+        img = #{record.img,jdbcType=TINYINT},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=BIGINT},
+      </if>
+      <if test="record.creditTotal != null">
+        credit_total = #{record.creditTotal,jdbcType=BIGINT},
+      </if>
+      <if test="record.creditSurplus != null">
+        credit_surplus = #{record.creditSurplus,jdbcType=BIGINT},
+      </if>
+      <if test="record.creditReal != null">
+        credit_real = #{record.creditReal,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null">
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkStatus != null">
+        check_status = #{record.checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.accumulativeMoney != null">
+        accumulative_money = #{record.accumulativeMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.repayTime != null">
+        repay_time = #{record.repayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loan != null">
+        loan = #{record.loan,jdbcType=BIGINT},
+      </if>
+      <if test="record.passwordWithdrawals != null">
+        password_withdrawals = #{record.passwordWithdrawals,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=CHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=TINYINT},
+      invitation = #{record.invitation,jdbcType=CHAR},
+      id_card = #{record.idCard,jdbcType=CHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      img = #{record.img,jdbcType=TINYINT},
+      money = #{record.money,jdbcType=BIGINT},
+      credit_total = #{record.creditTotal,jdbcType=BIGINT},
+      credit_surplus = #{record.creditSurplus,jdbcType=BIGINT},
+      credit_real = #{record.creditReal,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      check_status = #{record.checkStatus,jdbcType=TINYINT},
+      accumulative_money = #{record.accumulativeMoney,jdbcType=BIGINT},
+      repay_time = #{record.repayTime,jdbcType=TIMESTAMP},
+      loan = #{record.loan,jdbcType=BIGINT},
+      password_withdrawals = #{record.passwordWithdrawals,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.User">
+    update user
+    <set>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="invitation != null">
+        invitation = #{invitation,jdbcType=CHAR},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=TINYINT},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=BIGINT},
+      </if>
+      <if test="creditTotal != null">
+        credit_total = #{creditTotal,jdbcType=BIGINT},
+      </if>
+      <if test="creditSurplus != null">
+        credit_surplus = #{creditSurplus,jdbcType=BIGINT},
+      </if>
+      <if test="creditReal != null">
+        credit_real = #{creditReal,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null">
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStatus != null">
+        check_status = #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="accumulativeMoney != null">
+        accumulative_money = #{accumulativeMoney,jdbcType=BIGINT},
+      </if>
+      <if test="repayTime != null">
+        repay_time = #{repayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loan != null">
+        loan = #{loan,jdbcType=BIGINT},
+      </if>
+      <if test="passwordWithdrawals != null">
+        password_withdrawals = #{passwordWithdrawals,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.User">
+    update user
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=CHAR},
+      password = #{password,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      invitation = #{invitation,jdbcType=CHAR},
+      id_card = #{idCard,jdbcType=CHAR},
+      name = #{name,jdbcType=VARCHAR},
+      img = #{img,jdbcType=TINYINT},
+      money = #{money,jdbcType=BIGINT},
+      credit_total = #{creditTotal,jdbcType=BIGINT},
+      credit_surplus = #{creditSurplus,jdbcType=BIGINT},
+      credit_real = #{creditReal,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      check_status = #{checkStatus,jdbcType=TINYINT},
+      accumulative_money = #{accumulativeMoney,jdbcType=BIGINT},
+      repay_time = #{repayTime,jdbcType=TIMESTAMP},
+      loan = #{loan,jdbcType=BIGINT},
+      password_withdrawals = #{passwordWithdrawals,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

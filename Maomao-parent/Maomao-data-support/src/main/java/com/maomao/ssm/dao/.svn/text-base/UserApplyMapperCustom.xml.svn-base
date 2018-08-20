@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.UserApplyMapperCustom" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.UserApplyCustom" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="credit_type" property="creditType" jdbcType="TINYINT" />
+    <result column="leave_money" property="leaveMoney" jdbcType="BIGINT" />
+    <result column="total_money" property="totalMoney" jdbcType="BIGINT" />
+    <result column="use_money" property="useMoney" jdbcType="BIGINT" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="getUserApplyList" resultMap="BaseResultMap">
+  	SELECT a.id AS id,a.mobile AS account,a.name AS name,a.credit_real AS credit_type,b.apply_credit AS leave_money,a.credit_total AS total_money,a.credit_total-a.credit_surplus AS use_money,a.repay_time AS time
+	FROM user AS a 
+	JOIN user_apply_credit AS b 
+	ON a.id=b.user_id AND b.status=0 AND a.type=1
+	WHERE a.type=#{userType} AND b.status=#{status}
+	<if test="keyWords!=null">
+		AND (a.name LIKE CONCAT('%',#{keyWords},'%') OR a.mobile LIKE CONCAT('%',#{keyWords},'%'))
+	</if>
+	<if test="creditReal!=null">
+		AND a.credit_real=#{creditReal}
+	</if>
+	ORDER BY b.create_time DESC
+  </select>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsShelvesMapperCustom">
+	<sql id="goodsAuditList_where"> 
+		<where> 
+			<trim prefixOverrides="AND |OR"> 
+				<if test="categoryName !=null and categoryName != ''"> 
+					AND d.name = #{categoryName} 
+				</if> 
+				<if test="goodsWarehouseType !=null"> 
+					AND e.type = #{goodsWarehouseType} 
+				</if> 
+				<if test="goodsType !=null"> 
+					AND c.type = #{goodsType} 
+				</if> 
+				<if test="goodsName !=null and goodsName != ''"> 
+					AND c.name LIKE'%${goodsName}%'
+				</if> 
+				<if test="startStock !=null and endStock !=null"> 
+				AND c.stock &gt;= #{startStock} AND c.stock &lt;= #{endStock}
+					<!-- AND <![CDATA[ c.stock >= #{startStock} and c.stock <= #{endStock} ]]>   -->   
+				</if> 
+					AND b.`status`= 0 <!-- category订单类型:1普通商品 -->
+			</trim>
+		 </where> 
+	 </sql>
+
+	<select id="getGoodsAuditList" parameterType="com.maomao.ssm.pojo.GoodsShelvesBean"
+		resultType="com.maomao.ssm.pojo.GoodsAuditList">
+		SELECT
+			b.id goodsApplyId,
+			a.`name` userName,
+			a.mobile mobile,
+			c.`name` goodsName,
+			c.id goodsId,
+			b.create_time ,
+			d.`name` categoryName,
+			c.type goodsType,
+			e.type goodsWarehouseType,
+			b.status
+		FROM
+			goods_apply b
+			LEFT JOIN `admin` a ON b.user_id = a.id
+			LEFT JOIN goods c ON b.goods_id = c.id
+			LEFT JOIN goods_category d ON c.category_id = d.id
+			LEFT JOIN goods_warehouse e ON e.biz_id = c.id AND e.category = 1 
+		<include refid="goodsAuditList_where" />
+		ORDER BY
+			b.create_time DESC
+		<if test="startRows != null">
+			LIMIT #{startRows},#{rows}
+		</if>
+	</select>
+
+	<select id="getGoodsAuditCount" parameterType="com.maomao.ssm.pojo.GoodsShelvesBean" resultType="Integer">
+		SELECT
+		count(0)
+		FROM
+		goods_apply b
+		LEFT JOIN `admin` a ON b.user_id = a.id
+		LEFT JOIN goods c ON
+		b.goods_id = c.id
+		LEFT JOIN goods_category d ON c.category_id = d.id
+		LEFT JOIN goods_warehouse e ON e.biz_id = c.id AND e.category = 1 
+		<include refid="goodsAuditList_where" />
+	</select>
+</mapper>

@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsSubscriptionMapper" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.GoodsSubscription" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="TINYINT" />
+    <result column="get_way" property="getWay" jdbcType="TINYINT" />
+    <result column="check_admin" property="checkAdmin" jdbcType="INTEGER" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="check_reason" property="checkReason" jdbcType="VARCHAR" />
+    <result column="upload_admin" property="uploadAdmin" jdbcType="INTEGER" />
+    <result column="subscription_status" property="subscriptionStatus" jdbcType="TINYINT" />
+    <result column="subscription_start_time" property="subscriptionStartTime" jdbcType="TIMESTAMP" />
+    <result column="subscription_end_time" property="subscriptionEndTime" jdbcType="TIMESTAMP" />
+    <result column="price_sales" property="priceSales" jdbcType="BIGINT" />
+    <result column="price_subscription" property="priceSubscription" jdbcType="BIGINT" />
+    <result column="price_subscription_avg" property="priceSubscriptionAvg" jdbcType="BIGINT" />
+    <result column="num_subscription_total" property="numSubscriptionTotal" jdbcType="INTEGER" />
+    <result column="num_subscription" property="numSubscription" jdbcType="INTEGER" />
+    <result column="sales_award" property="salesAward" jdbcType="BIGINT" />
+    <result column="bonus_avg" property="bonusAvg" jdbcType="BIGINT" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="sales_end_time" property="salesEndTime" jdbcType="TIMESTAMP" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="deposit" property="deposit" jdbcType="BIGINT" />
+    <result column="status_settlement" property="statusSettlement" jdbcType="TINYINT" />
+    <result column="sell_status" property="sellStatus" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.maomao.ssm.bean.GoodsSubscriptionWithBLOBs" extends="BaseResultMap" >
+    <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
+    <result column="imgs" property="imgs" jdbcType="LONGVARCHAR" />
+    <result column="param" property="param" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, item_id, name, category_id, create_time, modified_time, brand_id, service_id, 
+      pay_type, get_way, check_admin, check_time, check_reason, upload_admin, subscription_status, 
+      subscription_start_time, subscription_end_time, price_sales, price_subscription, 
+      price_subscription_avg, num_subscription_total, num_subscription, sales_award, bonus_avg, 
+      stock, sales_end_time, admin_id, deposit, status_settlement, sell_status
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <sql id="Blob_Column_List" >
+    detail, imgs, param
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.maomao.ssm.bean.GoodsSubscriptionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from goods_subscription
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.maomao.ssm.bean.GoodsSubscriptionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods_subscription
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    id,item_id,name,category_id,create_time,modified_time,brand_id,service_id,pay_type,get_way,check_admin,check_time,check_reason,upload_admin,subscription_status,subscription_start_time,subscription_end_time,price_sales,price_subscription,price_subscription_avg,num_subscription_total,num_subscription,sales_award,bonus_avg,stock,sales_end_time,admin_id,deposit,status_settlement,sell_status,detail,imgs,param
+    ,
+    <include refid="Blob_Column_List" />
+    from goods_subscription
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_subscription
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.GoodsSubscriptionExample" >
+    delete from goods_subscription
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.GoodsSubscriptionWithBLOBs" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_subscription (item_id, name, category_id, 
+      create_time, modified_time, brand_id, 
+      service_id, pay_type, get_way, 
+      check_admin, check_time, check_reason, 
+      upload_admin, subscription_status, subscription_start_time, 
+      subscription_end_time, price_sales, price_subscription, 
+      price_subscription_avg, num_subscription_total, 
+      num_subscription, sales_award, bonus_avg, 
+      stock, sales_end_time, admin_id, 
+      deposit, status_settlement, sell_status, 
+      detail, imgs, param
+      )
+    values (#{itemId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifiedTime,jdbcType=TIMESTAMP}, #{brandId,jdbcType=INTEGER}, 
+      #{serviceId,jdbcType=VARCHAR}, #{payType,jdbcType=TINYINT}, #{getWay,jdbcType=TINYINT}, 
+      #{checkAdmin,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, #{checkReason,jdbcType=VARCHAR}, 
+      #{uploadAdmin,jdbcType=INTEGER}, #{subscriptionStatus,jdbcType=TINYINT}, #{subscriptionStartTime,jdbcType=TIMESTAMP}, 
+      #{subscriptionEndTime,jdbcType=TIMESTAMP}, #{priceSales,jdbcType=BIGINT}, #{priceSubscription,jdbcType=BIGINT}, 
+      #{priceSubscriptionAvg,jdbcType=BIGINT}, #{numSubscriptionTotal,jdbcType=INTEGER}, 
+      #{numSubscription,jdbcType=INTEGER}, #{salesAward,jdbcType=BIGINT}, #{bonusAvg,jdbcType=BIGINT}, 
+      #{stock,jdbcType=INTEGER}, #{salesEndTime,jdbcType=TIMESTAMP}, #{adminId,jdbcType=INTEGER}, 
+      #{deposit,jdbcType=BIGINT}, #{statusSettlement,jdbcType=TINYINT}, #{sellStatus,jdbcType=TINYINT}, 
+      #{detail,jdbcType=LONGVARCHAR}, #{imgs,jdbcType=LONGVARCHAR}, #{param,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.GoodsSubscriptionWithBLOBs" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_subscription
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="serviceId != null" >
+        service_id,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="getWay != null" >
+        get_way,
+      </if>
+      <if test="checkAdmin != null" >
+        check_admin,
+      </if>
+      <if test="checkTime != null" >
+        check_time,
+      </if>
+      <if test="checkReason != null" >
+        check_reason,
+      </if>
+      <if test="uploadAdmin != null" >
+        upload_admin,
+      </if>
+      <if test="subscriptionStatus != null" >
+        subscription_status,
+      </if>
+      <if test="subscriptionStartTime != null" >
+        subscription_start_time,
+      </if>
+      <if test="subscriptionEndTime != null" >
+        subscription_end_time,
+      </if>
+      <if test="priceSales != null" >
+        price_sales,
+      </if>
+      <if test="priceSubscription != null" >
+        price_subscription,
+      </if>
+      <if test="priceSubscriptionAvg != null" >
+        price_subscription_avg,
+      </if>
+      <if test="numSubscriptionTotal != null" >
+        num_subscription_total,
+      </if>
+      <if test="numSubscription != null" >
+        num_subscription,
+      </if>
+      <if test="salesAward != null" >
+        sales_award,
+      </if>
+      <if test="bonusAvg != null" >
+        bonus_avg,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="salesEndTime != null" >
+        sales_end_time,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="statusSettlement != null" >
+        status_settlement,
+      </if>
+      <if test="sellStatus != null" >
+        sell_status,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="imgs != null" >
+        imgs,
+      </if>
+      <if test="param != null" >
+        param,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="getWay != null" >
+        #{getWay,jdbcType=TINYINT},
+      </if>
+      <if test="checkAdmin != null" >
+        #{checkAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkReason != null" >
+        #{checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadAdmin != null" >
+        #{uploadAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="subscriptionStatus != null" >
+        #{subscriptionStatus,jdbcType=TINYINT},
+      </if>
+      <if test="subscriptionStartTime != null" >
+        #{subscriptionStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subscriptionEndTime != null" >
+        #{subscriptionEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priceSales != null" >
+        #{priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="priceSubscription != null" >
+        #{priceSubscription,jdbcType=BIGINT},
+      </if>
+      <if test="priceSubscriptionAvg != null" >
+        #{priceSubscriptionAvg,jdbcType=BIGINT},
+      </if>
+      <if test="numSubscriptionTotal != null" >
+        #{numSubscriptionTotal,jdbcType=INTEGER},
+      </if>
+      <if test="numSubscription != null" >
+        #{numSubscription,jdbcType=INTEGER},
+      </if>
+      <if test="salesAward != null" >
+        #{salesAward,jdbcType=BIGINT},
+      </if>
+      <if test="bonusAvg != null" >
+        #{bonusAvg,jdbcType=BIGINT},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="salesEndTime != null" >
+        #{salesEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=BIGINT},
+      </if>
+      <if test="statusSettlement != null" >
+        #{statusSettlement,jdbcType=TINYINT},
+      </if>
+      <if test="sellStatus != null" >
+        #{sellStatus,jdbcType=TINYINT},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="imgs != null" >
+        #{imgs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="param != null" >
+        #{param,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.GoodsSubscriptionExample" resultType="java.lang.Integer" >
+    select count(*) from goods_subscription
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goods_subscription
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedTime != null" >
+        modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.brandId != null" >
+        brand_id = #{record.brandId,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceId != null" >
+        service_id = #{record.serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payType != null" >
+        pay_type = #{record.payType,jdbcType=TINYINT},
+      </if>
+      <if test="record.getWay != null" >
+        get_way = #{record.getWay,jdbcType=TINYINT},
+      </if>
+      <if test="record.checkAdmin != null" >
+        check_admin = #{record.checkAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkTime != null" >
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkReason != null" >
+        check_reason = #{record.checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadAdmin != null" >
+        upload_admin = #{record.uploadAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="record.subscriptionStatus != null" >
+        subscription_status = #{record.subscriptionStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.subscriptionStartTime != null" >
+        subscription_start_time = #{record.subscriptionStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.subscriptionEndTime != null" >
+        subscription_end_time = #{record.subscriptionEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.priceSales != null" >
+        price_sales = #{record.priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="record.priceSubscription != null" >
+        price_subscription = #{record.priceSubscription,jdbcType=BIGINT},
+      </if>
+      <if test="record.priceSubscriptionAvg != null" >
+        price_subscription_avg = #{record.priceSubscriptionAvg,jdbcType=BIGINT},
+      </if>
+      <if test="record.numSubscriptionTotal != null" >
+        num_subscription_total = #{record.numSubscriptionTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.numSubscription != null" >
+        num_subscription = #{record.numSubscription,jdbcType=INTEGER},
+      </if>
+      <if test="record.salesAward != null" >
+        sales_award = #{record.salesAward,jdbcType=BIGINT},
+      </if>
+      <if test="record.bonusAvg != null" >
+        bonus_avg = #{record.bonusAvg,jdbcType=BIGINT},
+      </if>
+      <if test="record.stock != null" >
+        stock = #{record.stock,jdbcType=INTEGER},
+      </if>
+      <if test="record.salesEndTime != null" >
+        sales_end_time = #{record.salesEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adminId != null" >
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deposit != null" >
+        deposit = #{record.deposit,jdbcType=BIGINT},
+      </if>
+      <if test="record.statusSettlement != null" >
+        status_settlement = #{record.statusSettlement,jdbcType=TINYINT},
+      </if>
+      <if test="record.sellStatus != null" >
+        sell_status = #{record.sellStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.detail != null" >
+        detail = #{record.detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.imgs != null" >
+        imgs = #{record.imgs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.param != null" >
+        param = #{record.param,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update goods_subscription
+    set id = #{record.id,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      brand_id = #{record.brandId,jdbcType=INTEGER},
+      service_id = #{record.serviceId,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=TINYINT},
+      get_way = #{record.getWay,jdbcType=TINYINT},
+      check_admin = #{record.checkAdmin,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      check_reason = #{record.checkReason,jdbcType=VARCHAR},
+      upload_admin = #{record.uploadAdmin,jdbcType=INTEGER},
+      subscription_status = #{record.subscriptionStatus,jdbcType=TINYINT},
+      subscription_start_time = #{record.subscriptionStartTime,jdbcType=TIMESTAMP},
+      subscription_end_time = #{record.subscriptionEndTime,jdbcType=TIMESTAMP},
+      price_sales = #{record.priceSales,jdbcType=BIGINT},
+      price_subscription = #{record.priceSubscription,jdbcType=BIGINT},
+      price_subscription_avg = #{record.priceSubscriptionAvg,jdbcType=BIGINT},
+      num_subscription_total = #{record.numSubscriptionTotal,jdbcType=INTEGER},
+      num_subscription = #{record.numSubscription,jdbcType=INTEGER},
+      sales_award = #{record.salesAward,jdbcType=BIGINT},
+      bonus_avg = #{record.bonusAvg,jdbcType=BIGINT},
+      stock = #{record.stock,jdbcType=INTEGER},
+      sales_end_time = #{record.salesEndTime,jdbcType=TIMESTAMP},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      deposit = #{record.deposit,jdbcType=BIGINT},
+      status_settlement = #{record.statusSettlement,jdbcType=TINYINT},
+      sell_status = #{record.sellStatus,jdbcType=TINYINT},
+      detail = #{record.detail,jdbcType=LONGVARCHAR},
+      imgs = #{record.imgs,jdbcType=LONGVARCHAR},
+      param = #{record.param,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goods_subscription
+    set id = #{record.id,jdbcType=INTEGER},
+      item_id = #{record.itemId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modified_time = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      brand_id = #{record.brandId,jdbcType=INTEGER},
+      service_id = #{record.serviceId,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=TINYINT},
+      get_way = #{record.getWay,jdbcType=TINYINT},
+      check_admin = #{record.checkAdmin,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      check_reason = #{record.checkReason,jdbcType=VARCHAR},
+      upload_admin = #{record.uploadAdmin,jdbcType=INTEGER},
+      subscription_status = #{record.subscriptionStatus,jdbcType=TINYINT},
+      subscription_start_time = #{record.subscriptionStartTime,jdbcType=TIMESTAMP},
+      subscription_end_time = #{record.subscriptionEndTime,jdbcType=TIMESTAMP},
+      price_sales = #{record.priceSales,jdbcType=BIGINT},
+      price_subscription = #{record.priceSubscription,jdbcType=BIGINT},
+      price_subscription_avg = #{record.priceSubscriptionAvg,jdbcType=BIGINT},
+      num_subscription_total = #{record.numSubscriptionTotal,jdbcType=INTEGER},
+      num_subscription = #{record.numSubscription,jdbcType=INTEGER},
+      sales_award = #{record.salesAward,jdbcType=BIGINT},
+      bonus_avg = #{record.bonusAvg,jdbcType=BIGINT},
+      stock = #{record.stock,jdbcType=INTEGER},
+      sales_end_time = #{record.salesEndTime,jdbcType=TIMESTAMP},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      deposit = #{record.deposit,jdbcType=BIGINT},
+      status_settlement = #{record.statusSettlement,jdbcType=TINYINT},
+      sell_status = #{record.sellStatus,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.GoodsSubscriptionWithBLOBs" >
+    update goods_subscription
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedTime != null" >
+        modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null" >
+        service_id = #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="getWay != null" >
+        get_way = #{getWay,jdbcType=TINYINT},
+      </if>
+      <if test="checkAdmin != null" >
+        check_admin = #{checkAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null" >
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkReason != null" >
+        check_reason = #{checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadAdmin != null" >
+        upload_admin = #{uploadAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="subscriptionStatus != null" >
+        subscription_status = #{subscriptionStatus,jdbcType=TINYINT},
+      </if>
+      <if test="subscriptionStartTime != null" >
+        subscription_start_time = #{subscriptionStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subscriptionEndTime != null" >
+        subscription_end_time = #{subscriptionEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priceSales != null" >
+        price_sales = #{priceSales,jdbcType=BIGINT},
+      </if>
+      <if test="priceSubscription != null" >
+        price_subscription = #{priceSubscription,jdbcType=BIGINT},
+      </if>
+      <if test="priceSubscriptionAvg != null" >
+        price_subscription_avg = #{priceSubscriptionAvg,jdbcType=BIGINT},
+      </if>
+      <if test="numSubscriptionTotal != null" >
+        num_subscription_total = #{numSubscriptionTotal,jdbcType=INTEGER},
+      </if>
+      <if test="numSubscription != null" >
+        num_subscription = #{numSubscription,jdbcType=INTEGER},
+      </if>
+      <if test="salesAward != null" >
+        sales_award = #{salesAward,jdbcType=BIGINT},
+      </if>
+      <if test="bonusAvg != null" >
+        bonus_avg = #{bonusAvg,jdbcType=BIGINT},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="salesEndTime != null" >
+        sales_end_time = #{salesEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=BIGINT},
+      </if>
+      <if test="statusSettlement != null" >
+        status_settlement = #{statusSettlement,jdbcType=TINYINT},
+      </if>
+      <if test="sellStatus != null" >
+        sell_status = #{sellStatus,jdbcType=TINYINT},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="imgs != null" >
+        imgs = #{imgs,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="param != null" >
+        param = #{param,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.maomao.ssm.bean.GoodsSubscriptionWithBLOBs" >
+    update goods_subscription
+    set item_id = #{itemId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      service_id = #{serviceId,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=TINYINT},
+      get_way = #{getWay,jdbcType=TINYINT},
+      check_admin = #{checkAdmin,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      check_reason = #{checkReason,jdbcType=VARCHAR},
+      upload_admin = #{uploadAdmin,jdbcType=INTEGER},
+      subscription_status = #{subscriptionStatus,jdbcType=TINYINT},
+      subscription_start_time = #{subscriptionStartTime,jdbcType=TIMESTAMP},
+      subscription_end_time = #{subscriptionEndTime,jdbcType=TIMESTAMP},
+      price_sales = #{priceSales,jdbcType=BIGINT},
+      price_subscription = #{priceSubscription,jdbcType=BIGINT},
+      price_subscription_avg = #{priceSubscriptionAvg,jdbcType=BIGINT},
+      num_subscription_total = #{numSubscriptionTotal,jdbcType=INTEGER},
+      num_subscription = #{numSubscription,jdbcType=INTEGER},
+      sales_award = #{salesAward,jdbcType=BIGINT},
+      bonus_avg = #{bonusAvg,jdbcType=BIGINT},
+      stock = #{stock,jdbcType=INTEGER},
+      sales_end_time = #{salesEndTime,jdbcType=TIMESTAMP},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      deposit = #{deposit,jdbcType=BIGINT},
+      status_settlement = #{statusSettlement,jdbcType=TINYINT},
+      sell_status = #{sellStatus,jdbcType=TINYINT},
+      detail = #{detail,jdbcType=LONGVARCHAR},
+      imgs = #{imgs,jdbcType=LONGVARCHAR},
+      param = #{param,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.GoodsSubscription" >
+    update goods_subscription
+    set item_id = #{itemId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modified_time = #{modifiedTime,jdbcType=TIMESTAMP},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      service_id = #{serviceId,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=TINYINT},
+      get_way = #{getWay,jdbcType=TINYINT},
+      check_admin = #{checkAdmin,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      check_reason = #{checkReason,jdbcType=VARCHAR},
+      upload_admin = #{uploadAdmin,jdbcType=INTEGER},
+      subscription_status = #{subscriptionStatus,jdbcType=TINYINT},
+      subscription_start_time = #{subscriptionStartTime,jdbcType=TIMESTAMP},
+      subscription_end_time = #{subscriptionEndTime,jdbcType=TIMESTAMP},
+      price_sales = #{priceSales,jdbcType=BIGINT},
+      price_subscription = #{priceSubscription,jdbcType=BIGINT},
+      price_subscription_avg = #{priceSubscriptionAvg,jdbcType=BIGINT},
+      num_subscription_total = #{numSubscriptionTotal,jdbcType=INTEGER},
+      num_subscription = #{numSubscription,jdbcType=INTEGER},
+      sales_award = #{salesAward,jdbcType=BIGINT},
+      bonus_avg = #{bonusAvg,jdbcType=BIGINT},
+      stock = #{stock,jdbcType=INTEGER},
+      sales_end_time = #{salesEndTime,jdbcType=TIMESTAMP},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      deposit = #{deposit,jdbcType=BIGINT},
+      status_settlement = #{statusSettlement,jdbcType=TINYINT},
+      sell_status = #{sellStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.AdminMonthDetailMapperCustom" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.AdminMonthDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="loan_change" property="loanChange" jdbcType="BIGINT" />
+    <result column="money_change" property="moneyChange" jdbcType="BIGINT" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="loan_img" property="loanImg" jdbcType="VARCHAR" />
+    <result column="money_img" property="moneyImg" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ListResultMap" type="com.maomao.ssm.bean.AdminMonthDetailCustom" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="loan_change" property="loanChange" jdbcType="BIGINT" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="bank_user" property="bankUser" jdbcType="VARCHAR" />
+    <result column="money_change" property="moneyChange" jdbcType="BIGINT" />
+    <result column="repayment_bank_account" property="repaymentBankAccount" jdbcType="VARCHAR" />
+    <result column="repayment_bank_name" property="repaymentBankName" jdbcType="VARCHAR" />
+    <result column="repayment_bank_user" property="repaymentBankUser" jdbcType="VARCHAR" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="loan_img" property="loanImg" jdbcType="VARCHAR" />
+    <result column="money_img" property="moneyImg" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getMonthDetailInsertList" resultMap="BaseResultMap">
+  	<![CDATA[
+	SELECT a.admin_id,IFNULL(a.money_change,0) AS money_change,IFNULL(b.loan_change,0) AS loan_change
+	FROM
+	(SELECT 
+	admin_id AS admin_id,SUM(money_change) AS money_change 
+	FROM  
+	admin_money 
+	WHERE 
+	PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(create_time,'%Y%m')) = 1  
+	AND 
+	type = 4 
+	GROUP BY admin_id) AS a 
+	LEFT JOIN 
+	(SELECT 
+	admin_id AS admin_id,SUM(loan_change) AS loan_change 
+	FROM 
+	admin_loan 
+	WHERE 
+	PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(create_time,'%Y%m')) = 1  
+	GROUP BY admin_id) AS b 
+	ON 
+	a.admin_id = b.admin_id
+	
+	UNION 
+	
+	SELECT b.admin_id,IFNULL(a.money_change,0),IFNULL(b.loan_change,0)
+	FROM
+	(SELECT 
+	admin_id AS admin_id,SUM(money_change) AS money_change 
+	FROM  
+	admin_money 
+	WHERE 
+	PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(create_time,'%Y%m')) = 1  
+	AND 
+	type = 4 
+	GROUP BY admin_id) AS a 
+	RIGHT JOIN 
+	(SELECT 
+	admin_id AS admin_id,SUM(loan_change) AS loan_change 
+	FROM 
+	admin_loan 
+	WHERE 
+	PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(create_time,'%Y%m')) = 1  
+	GROUP BY admin_id) AS b 
+	ON 
+	a.admin_id = b.admin_id
+  	]]>
+  </select>
+  <select id="getMonthDetailListByMonth" resultMap="ListResultMap">
+  	<![CDATA[
+  	SELECT 
+	a.id,a.admin_id,a.money_change,a.loan_change,a.loan_img,a.money_img,a.upload_time,b.mobile,b.id_card,b.name,c.bank_account,c.bank_name,c.bank_user,c.repayment_bank_account,c.repayment_bank_name,c.repayment_bank_user 
+	FROM 
+	admin_month_detail AS a 
+	LEFT JOIN 
+	admin AS b 
+	ON a.admin_id = b.id 
+	LEFT JOIN 
+	admin_info AS c 
+	ON a.admin_id = c.admin_id 
+	WHERE 
+	PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(a.create_time,'%Y%m')) = IF(DATE_FORMAT(NOW(),'%d')<15,1,0)
+	]]>
+	<if test="queryString != null and '' != queryString">
+	AND 
+	(b.mobile = #{queryString} OR b.name = #{queryString} OR b.id_card LIKE CONCAT('%',#{queryString},'%'))
+	</if>
+	ORDER BY b.mobile ASC
+  </select>
+  <select id="getMonthDetailListByAdminId" resultMap="ListResultMap">
+  	SELECT 
+	a.id,a.admin_id,a.money_change,a.loan_change,a.loan_img,a.money_img,a.upload_time,b.mobile,b.id_card,b.name,c.bank_account,c.bank_name,c.bank_user,c.repayment_bank_account,c.repayment_bank_name,c.repayment_bank_user 
+	FROM 
+	admin_month_detail AS a 
+	LEFT JOIN 
+	admin AS b 
+	ON a.admin_id = b.id 
+	LEFT JOIN 
+	admin_info AS c 
+	ON a.admin_id = c.admin_id 
+	WHERE 
+	a.admin_id = #{adminId}
+	ORDER BY a.upload_time DESC
+  </select>
+  <select id="getMonthDetailById" resultMap="ListResultMap">
+  	SELECT 
+	a.id,a.admin_id,a.money_change,a.loan_change,a.loan_img,a.money_img,a.upload_time,b.mobile,b.id_card,b.name,c.bank_account,c.bank_name,c.bank_user,c.repayment_bank_account,c.repayment_bank_name,c.repayment_bank_user 
+	FROM 
+	admin_month_detail AS a 
+	LEFT JOIN 
+	admin AS b 
+	ON a.admin_id = b.id 
+	LEFT JOIN 
+	admin_info AS c 
+	ON a.admin_id = c.admin_id 
+	WHERE 
+	a.id = #{id}
+  </select>
+</mapper>

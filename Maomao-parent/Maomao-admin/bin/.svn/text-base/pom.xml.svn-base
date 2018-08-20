@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.maomao</groupId>
+		<artifactId>Maomao-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>Maomao-service</artifactId>
+	<packaging>war</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.maomao</groupId>
+			<artifactId>Maomao-data-support</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.maomao</groupId>
+			<artifactId>Maomao-commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.maomao</groupId>
+			<artifactId>Maomao-interface</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<filterFile>src/main/filter/pro-filter.properties</filterFile>
+			</properties>
+			<activation>
+			</activation>
+		</profile>
+		<profile>
+			<id>dev</id> 
+			<properties>
+				<filterFile>src/main/filter/dev-filter.properties</filterFile>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
+
+	<build>
+		<filters>
+			<filter>${filterFile}</filter>
+		</filters>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<!-- 注意此处的url -->
+
+					<url>http://192.168.1.205:80/manager/text</url>
+
+					<username>tomcat</username>
+					<password>tomcat</password>
+					<server>tomcat7</server>
+					<path>/maomaoservice</path>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<!--发布项目到私服 -->
+	<!-- <distributionManagement> <snapshotRepository> <id>snapshots</id> <url>http://192.168.10.37:8081/nexus/content/repositories/snapshots/</url> 
+		</snapshotRepository> <repository> <id>releases</id> <url>http://192.168.10.37:8081/nexus/content/repositories/releases/</url> 
+		</repository> </distributionManagement> -->
+	<!-- <build> -->
+	<!-- <plugins> -->
+	<!-- <plugin> -->
+	<!-- <groupId>org.apache.maven.plugins</groupId> -->
+	<!-- <artifactId>maven-war-plugin</artifactId> -->
+	<!-- <version>2.6</version> -->
+	<!-- <configuration> -->
+	<!-- <failOnMissingWebXml>false</failOnMissingWebXml> -->
+	<!-- </configuration> -->
+	<!-- </plugin> -->
+	<!-- </plugins> -->
+	<!-- </build> -->
+</project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

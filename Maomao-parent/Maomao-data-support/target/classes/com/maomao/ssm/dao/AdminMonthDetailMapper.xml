@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.AdminMonthDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.AdminMonthDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="loan_change" property="loanChange" jdbcType="BIGINT" />
+    <result column="money_change" property="moneyChange" jdbcType="BIGINT" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="loan_img" property="loanImg" jdbcType="VARCHAR" />
+    <result column="money_img" property="moneyImg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, admin_id, create_time, loan_change, money_change, upload_time, loan_img, money_img
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.maomao.ssm.bean.AdminMonthDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin_month_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    id,admin_id,create_time,loan_change,money_change,upload_time,loan_img,money_img
+    from admin_month_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin_month_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.AdminMonthDetailExample" >
+    delete from admin_month_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.AdminMonthDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin_month_detail (admin_id, create_time, loan_change, 
+      money_change, upload_time, loan_img, 
+      money_img)
+    values (#{adminId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{loanChange,jdbcType=BIGINT}, 
+      #{moneyChange,jdbcType=BIGINT}, #{uploadTime,jdbcType=TIMESTAMP}, #{loanImg,jdbcType=VARCHAR}, 
+      #{moneyImg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.AdminMonthDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin_month_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="loanChange != null" >
+        loan_change,
+      </if>
+      <if test="moneyChange != null" >
+        money_change,
+      </if>
+      <if test="uploadTime != null" >
+        upload_time,
+      </if>
+      <if test="loanImg != null" >
+        loan_img,
+      </if>
+      <if test="moneyImg != null" >
+        money_img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanChange != null" >
+        #{loanChange,jdbcType=BIGINT},
+      </if>
+      <if test="moneyChange != null" >
+        #{moneyChange,jdbcType=BIGINT},
+      </if>
+      <if test="uploadTime != null" >
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanImg != null" >
+        #{loanImg,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyImg != null" >
+        #{moneyImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.AdminMonthDetailExample" resultType="java.lang.Integer" >
+    select count(*) from admin_month_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update admin_month_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminId != null" >
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loanChange != null" >
+        loan_change = #{record.loanChange,jdbcType=BIGINT},
+      </if>
+      <if test="record.moneyChange != null" >
+        money_change = #{record.moneyChange,jdbcType=BIGINT},
+      </if>
+      <if test="record.uploadTime != null" >
+        upload_time = #{record.uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loanImg != null" >
+        loan_img = #{record.loanImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moneyImg != null" >
+        money_img = #{record.moneyImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update admin_month_detail
+    set id = #{record.id,jdbcType=INTEGER},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      loan_change = #{record.loanChange,jdbcType=BIGINT},
+      money_change = #{record.moneyChange,jdbcType=BIGINT},
+      upload_time = #{record.uploadTime,jdbcType=TIMESTAMP},
+      loan_img = #{record.loanImg,jdbcType=VARCHAR},
+      money_img = #{record.moneyImg,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.AdminMonthDetail" >
+    update admin_month_detail
+    <set >
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanChange != null" >
+        loan_change = #{loanChange,jdbcType=BIGINT},
+      </if>
+      <if test="moneyChange != null" >
+        money_change = #{moneyChange,jdbcType=BIGINT},
+      </if>
+      <if test="uploadTime != null" >
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanImg != null" >
+        loan_img = #{loanImg,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyImg != null" >
+        money_img = #{moneyImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.AdminMonthDetail" >
+    update admin_month_detail
+    set admin_id = #{adminId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      loan_change = #{loanChange,jdbcType=BIGINT},
+      money_change = #{moneyChange,jdbcType=BIGINT},
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      loan_img = #{loanImg,jdbcType=VARCHAR},
+      money_img = #{moneyImg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

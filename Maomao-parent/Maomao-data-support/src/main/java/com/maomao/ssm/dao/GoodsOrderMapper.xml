@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.GoodsOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="BIGINT" />
+    <result column="pay_money" property="payMoney" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="pay_account" property="payAccount" jdbcType="VARCHAR" />
+    <result column="coupon_record_id" property="couponRecordId" jdbcType="INTEGER" />
+    <result column="coupon_money" property="couponMoney" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="account_time" property="accountTime" jdbcType="TIMESTAMP" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="over_time" property="overTime" jdbcType="TIMESTAMP" />
+    <result column="sales_user_id" property="salesUserId" jdbcType="INTEGER" />
+    <result column="order_src" property="orderSrc" jdbcType="TINYINT" />
+    <result column="express" property="express" jdbcType="VARCHAR" />
+    <result column="express_num" property="expressNum" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="TINYINT" />
+    <result column="get_way" property="getWay" jdbcType="TINYINT" />
+    <result column="pay_way" property="payWay" jdbcType="TINYINT" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="refund_address" property="refundAddress" jdbcType="VARCHAR" />
+    <result column="refund_name" property="refundName" jdbcType="VARCHAR" />
+    <result column="refund_mobile" property="refundMobile" jdbcType="VARCHAR" />
+    <result column="unpay_money" property="unpayMoney" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="CHAR" />
+    <result column="status_settlement" property="statusSettlement" jdbcType="TINYINT" />
+    <result column="order_category" property="orderCategory" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, order_num, user_id, money, pay_money, user_name, address, mobile, status, pay_account, 
+      coupon_record_id, coupon_money, create_time, pay_time, account_time, send_time, over_time, 
+      sales_user_id, order_src, express, express_num, pay_type, get_way, pay_way, admin_id, 
+      refund_address, refund_name, refund_mobile, unpay_money, code, status_settlement, 
+      order_category
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.maomao.ssm.bean.GoodsOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    id,order_num,user_id,money,pay_money,user_name,address,mobile,status,pay_account,coupon_record_id,coupon_money,create_time,pay_time,account_time,send_time,over_time,sales_user_id,order_src,express,express_num,pay_type,get_way,pay_way,admin_id,refund_address,refund_name,refund_mobile,unpay_money,code,status_settlement,order_category
+    from goods_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.GoodsOrderExample" >
+    delete from goods_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.GoodsOrder" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_order (order_num, user_id, money, 
+      pay_money, user_name, address, 
+      mobile, status, pay_account, 
+      coupon_record_id, coupon_money, create_time, 
+      pay_time, account_time, send_time, 
+      over_time, sales_user_id, order_src, 
+      express, express_num, pay_type, 
+      get_way, pay_way, admin_id, 
+      refund_address, refund_name, refund_mobile, 
+      unpay_money, code, status_settlement, 
+      order_category)
+    values (#{orderNum,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{money,jdbcType=BIGINT}, 
+      #{payMoney,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{payAccount,jdbcType=VARCHAR}, 
+      #{couponRecordId,jdbcType=INTEGER}, #{couponMoney,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{accountTime,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, 
+      #{overTime,jdbcType=TIMESTAMP}, #{salesUserId,jdbcType=INTEGER}, #{orderSrc,jdbcType=TINYINT}, 
+      #{express,jdbcType=VARCHAR}, #{expressNum,jdbcType=VARCHAR}, #{payType,jdbcType=TINYINT}, 
+      #{getWay,jdbcType=TINYINT}, #{payWay,jdbcType=TINYINT}, #{adminId,jdbcType=INTEGER}, 
+      #{refundAddress,jdbcType=VARCHAR}, #{refundName,jdbcType=VARCHAR}, #{refundMobile,jdbcType=VARCHAR}, 
+      #{unpayMoney,jdbcType=BIGINT}, #{code,jdbcType=CHAR}, #{statusSettlement,jdbcType=TINYINT}, 
+      #{orderCategory,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.GoodsOrder" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNum != null" >
+        order_num,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="payMoney != null" >
+        pay_money,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="payAccount != null" >
+        pay_account,
+      </if>
+      <if test="couponRecordId != null" >
+        coupon_record_id,
+      </if>
+      <if test="couponMoney != null" >
+        coupon_money,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="accountTime != null" >
+        account_time,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="overTime != null" >
+        over_time,
+      </if>
+      <if test="salesUserId != null" >
+        sales_user_id,
+      </if>
+      <if test="orderSrc != null" >
+        order_src,
+      </if>
+      <if test="express != null" >
+        express,
+      </if>
+      <if test="expressNum != null" >
+        express_num,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="getWay != null" >
+        get_way,
+      </if>
+      <if test="payWay != null" >
+        pay_way,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="refundAddress != null" >
+        refund_address,
+      </if>
+      <if test="refundName != null" >
+        refund_name,
+      </if>
+      <if test="refundMobile != null" >
+        refund_mobile,
+      </if>
+      <if test="unpayMoney != null" >
+        unpay_money,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="statusSettlement != null" >
+        status_settlement,
+      </if>
+      <if test="orderCategory != null" >
+        order_category,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=BIGINT},
+      </if>
+      <if test="payMoney != null" >
+        #{payMoney,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payAccount != null" >
+        #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="couponRecordId != null" >
+        #{couponRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="couponMoney != null" >
+        #{couponMoney,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountTime != null" >
+        #{accountTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overTime != null" >
+        #{overTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salesUserId != null" >
+        #{salesUserId,jdbcType=INTEGER},
+      </if>
+      <if test="orderSrc != null" >
+        #{orderSrc,jdbcType=TINYINT},
+      </if>
+      <if test="express != null" >
+        #{express,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNum != null" >
+        #{expressNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="getWay != null" >
+        #{getWay,jdbcType=TINYINT},
+      </if>
+      <if test="payWay != null" >
+        #{payWay,jdbcType=TINYINT},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="refundAddress != null" >
+        #{refundAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="refundName != null" >
+        #{refundName,jdbcType=VARCHAR},
+      </if>
+      <if test="refundMobile != null" >
+        #{refundMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="unpayMoney != null" >
+        #{unpayMoney,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=CHAR},
+      </if>
+      <if test="statusSettlement != null" >
+        #{statusSettlement,jdbcType=TINYINT},
+      </if>
+      <if test="orderCategory != null" >
+        #{orderCategory,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.GoodsOrderExample" resultType="java.lang.Integer" >
+    select count(*) from goods_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goods_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNum != null" >
+        order_num = #{record.orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null" >
+        money = #{record.money,jdbcType=BIGINT},
+      </if>
+      <if test="record.payMoney != null" >
+        pay_money = #{record.payMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.payAccount != null" >
+        pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponRecordId != null" >
+        coupon_record_id = #{record.couponRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponMoney != null" >
+        coupon_money = #{record.couponMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payTime != null" >
+        pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.accountTime != null" >
+        account_time = #{record.accountTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sendTime != null" >
+        send_time = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.overTime != null" >
+        over_time = #{record.overTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.salesUserId != null" >
+        sales_user_id = #{record.salesUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderSrc != null" >
+        order_src = #{record.orderSrc,jdbcType=TINYINT},
+      </if>
+      <if test="record.express != null" >
+        express = #{record.express,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressNum != null" >
+        express_num = #{record.expressNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payType != null" >
+        pay_type = #{record.payType,jdbcType=TINYINT},
+      </if>
+      <if test="record.getWay != null" >
+        get_way = #{record.getWay,jdbcType=TINYINT},
+      </if>
+      <if test="record.payWay != null" >
+        pay_way = #{record.payWay,jdbcType=TINYINT},
+      </if>
+      <if test="record.adminId != null" >
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundAddress != null" >
+        refund_address = #{record.refundAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundName != null" >
+        refund_name = #{record.refundName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundMobile != null" >
+        refund_mobile = #{record.refundMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unpayMoney != null" >
+        unpay_money = #{record.unpayMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=CHAR},
+      </if>
+      <if test="record.statusSettlement != null" >
+        status_settlement = #{record.statusSettlement,jdbcType=TINYINT},
+      </if>
+      <if test="record.orderCategory != null" >
+        order_category = #{record.orderCategory,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goods_order
+    set id = #{record.id,jdbcType=INTEGER},
+      order_num = #{record.orderNum,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      money = #{record.money,jdbcType=BIGINT},
+      pay_money = #{record.payMoney,jdbcType=BIGINT},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      coupon_record_id = #{record.couponRecordId,jdbcType=INTEGER},
+      coupon_money = #{record.couponMoney,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      account_time = #{record.accountTime,jdbcType=TIMESTAMP},
+      send_time = #{record.sendTime,jdbcType=TIMESTAMP},
+      over_time = #{record.overTime,jdbcType=TIMESTAMP},
+      sales_user_id = #{record.salesUserId,jdbcType=INTEGER},
+      order_src = #{record.orderSrc,jdbcType=TINYINT},
+      express = #{record.express,jdbcType=VARCHAR},
+      express_num = #{record.expressNum,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=TINYINT},
+      get_way = #{record.getWay,jdbcType=TINYINT},
+      pay_way = #{record.payWay,jdbcType=TINYINT},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      refund_address = #{record.refundAddress,jdbcType=VARCHAR},
+      refund_name = #{record.refundName,jdbcType=VARCHAR},
+      refund_mobile = #{record.refundMobile,jdbcType=VARCHAR},
+      unpay_money = #{record.unpayMoney,jdbcType=BIGINT},
+      code = #{record.code,jdbcType=CHAR},
+      status_settlement = #{record.statusSettlement,jdbcType=TINYINT},
+      order_category = #{record.orderCategory,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.GoodsOrder" >
+    update goods_order
+    <set >
+      <if test="orderNum != null" >
+        order_num = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=BIGINT},
+      </if>
+      <if test="payMoney != null" >
+        pay_money = #{payMoney,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="payAccount != null" >
+        pay_account = #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="couponRecordId != null" >
+        coupon_record_id = #{couponRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="couponMoney != null" >
+        coupon_money = #{couponMoney,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountTime != null" >
+        account_time = #{accountTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overTime != null" >
+        over_time = #{overTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salesUserId != null" >
+        sales_user_id = #{salesUserId,jdbcType=INTEGER},
+      </if>
+      <if test="orderSrc != null" >
+        order_src = #{orderSrc,jdbcType=TINYINT},
+      </if>
+      <if test="express != null" >
+        express = #{express,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNum != null" >
+        express_num = #{expressNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="getWay != null" >
+        get_way = #{getWay,jdbcType=TINYINT},
+      </if>
+      <if test="payWay != null" >
+        pay_way = #{payWay,jdbcType=TINYINT},
+      </if>
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="refundAddress != null" >
+        refund_address = #{refundAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="refundName != null" >
+        refund_name = #{refundName,jdbcType=VARCHAR},
+      </if>
+      <if test="refundMobile != null" >
+        refund_mobile = #{refundMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="unpayMoney != null" >
+        unpay_money = #{unpayMoney,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=CHAR},
+      </if>
+      <if test="statusSettlement != null" >
+        status_settlement = #{statusSettlement,jdbcType=TINYINT},
+      </if>
+      <if test="orderCategory != null" >
+        order_category = #{orderCategory,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.GoodsOrder" >
+    update goods_order
+    set order_num = #{orderNum,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      money = #{money,jdbcType=BIGINT},
+      pay_money = #{payMoney,jdbcType=BIGINT},
+      user_name = #{userName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      pay_account = #{payAccount,jdbcType=VARCHAR},
+      coupon_record_id = #{couponRecordId,jdbcType=INTEGER},
+      coupon_money = #{couponMoney,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      account_time = #{accountTime,jdbcType=TIMESTAMP},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      over_time = #{overTime,jdbcType=TIMESTAMP},
+      sales_user_id = #{salesUserId,jdbcType=INTEGER},
+      order_src = #{orderSrc,jdbcType=TINYINT},
+      express = #{express,jdbcType=VARCHAR},
+      express_num = #{expressNum,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=TINYINT},
+      get_way = #{getWay,jdbcType=TINYINT},
+      pay_way = #{payWay,jdbcType=TINYINT},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      refund_address = #{refundAddress,jdbcType=VARCHAR},
+      refund_name = #{refundName,jdbcType=VARCHAR},
+      refund_mobile = #{refundMobile,jdbcType=VARCHAR},
+      unpay_money = #{unpayMoney,jdbcType=BIGINT},
+      code = #{code,jdbcType=CHAR},
+      status_settlement = #{statusSettlement,jdbcType=TINYINT},
+      order_category = #{orderCategory,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

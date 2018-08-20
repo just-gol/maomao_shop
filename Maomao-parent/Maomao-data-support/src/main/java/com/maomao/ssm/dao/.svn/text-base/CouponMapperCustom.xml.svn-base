@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.CouponMapperCustom" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.CouponCustom" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="discount" property="discount" jdbcType="BIGINT" />
+    <result column="avaiable_money" property="avaiableMoney" jdbcType="BIGINT" />
+    <result column="validity_term" property="validityTerm" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="use_start_time" property="useStartTime" jdbcType="TIMESTAMP" />
+    <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="get_num" property="getNum" jdbcType="INTEGER" />
+    <result column="stock_total" property="stockTotal" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="sum" property="sum" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  
+  <select id="getUngetCouponListByUserId" resultMap="BaseResultMap">
+   	SELECT a.*,COUNT(b.id) AS sum
+	FROM coupon AS a
+	LEFT JOIN (
+	SELECT * FROM coupon_record WHERE user_id=#{userId}
+	) AS b
+	ON a.id=b.coupon_id
+	WHERE
+	a.status=0 AND a.type=3 AND
+	(a.stock=-1 OR a.stock>0) AND
+	(a.start_time IS NULL OR (a.start_time &lt; NOW() AND a.end_time &gt; NOW()))
+	GROUP BY a.id
+  </select>
+  
+  
+</mapper>

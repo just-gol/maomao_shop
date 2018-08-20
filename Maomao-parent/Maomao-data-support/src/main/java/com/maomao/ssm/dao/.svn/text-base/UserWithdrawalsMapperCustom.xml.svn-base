@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.UserWithdrawalsMapperCustom" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.UserWithdrawalsCustom" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="HistoryResultMap" type="com.maomao.ssm.bean.UserWithdrawalsHistoryCustom" >
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="BIGINT" />
+    <result column="accumulative_money" property="accumulativeMoney" jdbcType="BIGINT" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="last_time" property="lastTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="getUserWithdrawalsList" resultMap="BaseResultMap">
+  	SELECT a.name,a.mobile,b.* FROM user AS a JOIN user_withdrawals AS b ON a.id=b.user_id WHERE b.status=#{status} AND b.category=#{category}
+  	<if test="queryString != null and '' != queryString">
+	AND 
+	(a.name=#{queryString} OR a.mobile=#{queryString})
+	</if>
+  </select>
+  <select id="getHistoryUserWithdrawalsList" resultMap="HistoryResultMap">
+  	SELECT a.id AS user_id,a.name,a.mobile,a.money,a.accumulative_money,COUNT(b.user_id) AS num,MAX(b.create_time) AS last_time FROM user AS a LEFT JOIN user_withdrawals AS b ON a.id=b.user_id AND b.category=#{category} WHERE a.type=#{type}  
+  	<if test="queryString != null and '' != queryString">
+	AND 
+	(a.mobile = #{queryString} OR a.name = #{queryString})
+	</if>
+  	GROUP BY a.id ORDER BY a.mobile
+  </select>
+  <select id="getUserWithdrawalsSumByUserId" resultMap="BaseResultMap">
+  	SELECT IFNULL(SUM(money),0) AS money FROM user_withdrawals WHERE user_id=#{userId} AND status=#{status} AND category=#{category}
+  </select>
+  
+</mapper>

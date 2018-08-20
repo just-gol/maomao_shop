@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" 
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- spring配置中的use-default-filters用来指示是否自动扫描带有 @Component、@Repository、@Service和@Controller的类。默认为true， 
+		即默认扫描 exclude-filter设为true因为 所以排除 include-filter设为false不然其他也会生效 -->
+	<context:component-scan base-package="com.maomao" use-default-filters="false">
+		<!-- 只 扫描控制器 include包含 include去除 -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan> 
+	
+	<context:property-placeholder location="classpath:conf/server.properties" />
+
+	<!--配置视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 配置前缀放于哪个包下views 以及文件后缀 -->
+		<property name="prefix" value="/WEB-INF/pages/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<!--配置多媒体解析器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设定默认编码 -->
+		<property name="defaultEncoding" value="UTF-8" />
+		<!-- 设定文件上传的最大值5MB，5*1024*1024 -->
+		<property name="maxUploadSize" value="5242880" />
+	</bean>
+
+	<mvc:cors>
+		<mvc:mapping path="/**/**" allowed-origins="*"
+			allowed-methods="POST, GET, OPTIONS, DELETE, PUT"
+			allowed-headers="Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+			allow-credentials="true" />
+	</mvc:cors>
+
+	<!-- 对进入DispatcherServlet的URL进行筛查， 如果发现是静态资源的请求，就将该请求转由Web应用服务器默认的Servlet处理， 
+		如果不是静态资源的请求，才由DispatcherServlet继续处理。 -->
+	<mvc:default-servlet-handler />
+
+	<mvc:annotation-driven />
+	
+  	<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login/login.action"/>
+            <mvc:exclude-mapping path="/login/randomIMG.action"/>
+            <mvc:exclude-mapping path="/login/chekcIMG.action"/>
+            <mvc:exclude-mapping path="/login/getSmsCode.action"/>
+            <mvc:exclude-mapping path="/login/checkSmsCode.action"/>
+            <mvc:exclude-mapping path="/login/updatePassword.action"/>
+             <mvc:exclude-mapping path="/role/getUserPermissionsAll.action"/>
+            <bean class="com.maomao.ssm.controller.intercept.LoginIntercept"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors> 
+    
+   <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+             <mvc:exclude-mapping path="/login/randomIMG.action"/>
+            <mvc:exclude-mapping path="/login/chekcIMG.action"/>
+            <mvc:exclude-mapping path="/login/getSmsCode.action"/>
+            <mvc:exclude-mapping path="/login/checkSmsCode.action"/>
+            <mvc:exclude-mapping path="/login/getHomePage.action"/>
+            <mvc:exclude-mapping path="/login/getAccountInfo.action"/>
+             <mvc:exclude-mapping path="/user/getIndividualUserList.action"/>
+             <mvc:exclude-mapping path="/user/editIndividualUser.action"/>
+             <mvc:exclude-mapping path="/user/getSupplierUserList.action"/>
+             <mvc:exclude-mapping path="/user/editSupplierUser.action"/>
+             <mvc:exclude-mapping path="/user/getBankList.action"/>
+             <mvc:exclude-mapping path="/user/getAdminAll.action"/>
+             <mvc:exclude-mapping path="/shop/getSearchUser.action"/>
+             <mvc:exclude-mapping path="/role/getUserPermissionsAll.action"/>
+            <bean class="com.maomao.ssm.controller.intercept.UserLogInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors> 
+	<import resource="applicationContext.xml"/>	
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsMapperCustom">
+	<!-- <resultMap id="BaseResultMap" type="com.maomao.ssm.pojo.GoodsWithBLOBsList" 
+		> <result column="id" property="goodsId"/> <result column="name" property="goodsName"/> 
+		<result column="category_id" property="categoryId"/> <result column="price_sales" 
+		property="goodsName"/> <result column="stock" property="stock"/> <result 
+		column="type" property="type"/> <result column="status" property="status"/> 
+		<result column="limit_time" property="limitTime"/> </resultMap> -->
+	<sql id="Base_Column_List">
+		<if test="fields == null">
+			id, item_id, name, price_purchase, price_sales, category_id, stock,
+			stock_sham, sales,
+			sales_sham, reword, rebate, status, crate_time, modified_time, brand_id,
+			service_id,
+			pay_type, get_way, check_admin, check_time, check_reason, type, admin_id,
+			limit_time,
+			min_price, max_price, deposit, sort, detail, imgs, param
+		</if>
+		<if test="fields != null">
+			${fields}
+		</if>
+	</sql>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+
+
+	<sql id="goodsWithBLOBsList_where">
+		<where>
+			<trim prefixOverrides="AND |OR">
+				<if test="categoryId !=null and categoryId != '' "> <!-- 商品类型 -->
+					AND a.category_id = #{categoryId}
+				</if>
+
+				<if test="goodsName != null"> <!-- 商品名称 -->
+					AND a.name LIKE '%${goodsName}%'
+				</if>
+
+				<if test="warehouseType !=null"> <!-- 仓储方式 -->
+					AND c.type = #{warehouseType}
+				</if>
+				<if test="getWay !=null"> <!-- 取货方式 -->
+					AND a.get_way = #{getWay}
+				</if>
+				<choose>
+					<when test="type != null and type !=4">
+						AND a.type = #{type}
+					</when>
+					<!-- <otherwise> AND (a.type = 2 OR a.type=3) </otherwise> -->
+
+					<when test="type != null and type !='' and type != 0 and type == 4  ">
+						AND (a.type = 2 OR a.type=3)
+					</when>
+				</choose>
+
+				<!-- 商品状态 -->
+				<if test="status == null or status =='' ">
+					AND a.status != -1
+				</if>
+				<if test="status != null and status != 5 and status != -1">
+					AND a.status = #{status}
+				</if>
+
+				<if test="status != null and status == 5 and status != -1"> <!-- 5:已售尽 -->
+					AND a.stock = 0
+				</if>
+				<if
+					test="dataRoleType != null and dataRoleType == 1 and dataRoleScope != null"><!-- 部分 -->
+					AND a.admin_id IN (${dataRoleScope})
+				</if>
+				<if
+					test="dataRoleType != null and dataRoleType == 2 and dataRoleScope != null"> <!-- 自己 -->
+					AND a.admin_id = #{dataRoleScope}
+				</if>
+
+			</trim>
+		</where>
+	</sql>
+
+	<select id="getGoodsList" parameterType="com.maomao.ssm.pojo.GoodsMapperBean"
+		resultType="com.maomao.ssm.pojo.GoodsWithBLOBsList">
+		SELECT
+		a.id goodsId,
+		a.`name` goodsName,
+		a.price_sales,
+		a.stock,
+		a.stock_sham,
+		a.type,
+		a.`status`,
+		a.limit_time,
+		a.category_id,
+		b.name
+		categoryName,
+		c.type warehouseType
+		FROM
+		goods a
+		LEFT JOIN goods_category b
+		ON a.category_id = b.id
+		LEFT JOIN goods_warehouse c ON c.biz_id = a.id
+		AND c.category=1
+		<include refid="goodsWithBLOBsList_where" />
+		ORDER BY  a.crate_time DESC
+		<if test="startRows != null">
+			LIMIT #{startRows},#{rows}
+		</if>
+	</select>
+
+	<select id="getGoodsCount" parameterType="com.maomao.ssm.pojo.GoodsMapperBean"
+		resultType="Integer">
+		SELECT
+		count(0)
+		FROM
+		goods a
+		LEFT JOIN goods_category b ON a.category_id =
+		b.id
+		LEFT JOIN goods_warehouse c ON c.biz_id = a.id AND c.category=1
+		<include refid="goodsWithBLOBsList_where" />
+	</select>
+
+	<select id="getGoodsSkuListByMortgage" resultType="com.maomao.ssm.bean.GoodsSku">
+		SELECT b.*
+		FROM goods AS a
+		JOIN goods_sku AS b
+		ON a.id = b.goods_id
+		WHERE
+		a.status != -1
+		AND (a.type=2 OR a.type=3)
+		AND b.status = 0
+		<if
+			test="dataRoleType != null and dataRoleType == 1 and dataRoleScope != null"><!-- 部分 -->
+			AND a.admin_id IN (${dataRoleScope})
+		</if>
+		<if
+			test="dataRoleType != null and dataRoleType == 2 and dataRoleScope != null"> <!-- 自己 -->
+			AND a.admin_id = #{dataRoleScope}
+		</if>
+	</select>
+
+	<select id="selectByExampleWithBLOBs" resultType="com.maomao.ssm.bean.GoodsWithBLOBs"
+		parameterType="com.maomao.ssm.bean.GoodsExampleCustom">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from goods
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+</mapper>

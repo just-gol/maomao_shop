@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.SystemMapperCustom">
+	<!--启动页sort=8  -->
+	<select id="getAdManagementSort" parameterType="Byte"
+		resultType="com.maomao.ssm.bean.Banner">
+		select * from banner b where b.type != 2 AND b.type = #{type} ORDER BY b.sort DESC LIMIT 0,1;
+	</select>
+
+	<select id="setAdManagementDown" 
+		resultType="com.maomao.ssm.bean.Banner">
+		SELECT * from banner b WHERE b.sort &lt;#{arg0} AND b.type = #{arg1} ORDER
+		BY
+		b.sort DESC limit 0,1
+	</select>
+
+	<select id="setAdManagementUp" 
+		resultType="com.maomao.ssm.bean.Banner">
+		SELECT * from banner b WHERE b.sort &gt; #{arg0} AND b.type = #{arg1} ORDER
+		BY 
+		b.sort limit 0,1
+	</select>
+
+	<select id="getAdManagementList" resultType="com.maomao.ssm.bean.Banner">
+		SELECT * from banner
+		b ORDER BY b.sort desc
+	</select>
+
+	<select id="getAdManagementCount" resultType="Integer">
+		SELECT count(sort)
+		AS `count` from banner
+	</select>
+
+	<select id="getAdManagementTop" resultType="com.maomao.ssm.bean.Banner">
+		SELECT * FROM banner b WHERE b.type != 2 and b.type != 1 ORDER BY  b.sort DESC LIMIT 0 ,1
+	</select>
+	
+	<select id="getClassifyManagementTop" resultType="com.maomao.ssm.bean.Banner">
+		SELECT * FROM banner b WHERE b.type = 1 AND b.status != -1 ORDER BY  b.sort DESC LIMIT 0 ,1
+	</select>
+
+	<select id="getAdManagementMinSort" resultType="Integer">
+		SELECT b.sort FROM banner b ORDER BY b.sort ASC LIMIT 1
+	</select>
+
+	<select id="getAdManagementMaxSort" resultType="Integer">
+		SELECT b.sort FROM banner b WHERE b.type != 2 ORDER BY b.sort DESC LIMIT 1
+	</select>
+
+	<select id="setRecommendDown" parameterType="Integer"
+		resultType="com.maomao.ssm.bean.HomeCategory">
+		SELECT * from home_category h WHERE h.sort &lt; #{sort} ORDER BY h.sort DESC limit 0,1
+	</select>
+
+	<select id="setRecommendUp" parameterType="Integer"
+		resultType="com.maomao.ssm.bean.HomeCategory">
+		SELECT * from home_category h WHERE h.sort &gt; #{sort} ORDER BY h.sort limit 0,1
+	</select>
+
+	<select id="getRecommendLists" resultType="com.maomao.ssm.bean.HomeCategory">
+		SELECT * from home_category	h ORDER BY h.sort desc
+	</select>
+
+<!-- 
+	<select id="getRecommendCount" resultType="Integer">
+		SELECT count(sort)	AS `count` from home_category
+	</select>
+ -->
+	<select id="getRecommendTop" resultType="com.maomao.ssm.bean.HomeCategory">
+		SELECT * FROM home_category	h ORDER BY h.sort DESC LIMIT 1
+	</select>
+
+	<select id="getRecommendMinSort" resultType="Integer">
+		SELECT h.sort FROM home_category h ORDER BY h.sort ASC LIMIT 1
+	</select>
+	
+	<!--推荐位保存,判断分类是否重复  -->
+	<select id="getOnlyGoodsCategory" parameterType="com.maomao.ssm.bean.GoodsCategory" resultType="com.maomao.ssm.bean.GoodsCategory">
+		SELECT * FROM goods_category g WHERE g.`name`= #{goodsCategoryName} AND #{goodsCategoryId} != #{goodsCategoryId2};
+	</select>
+	
+	<!--查询广告位列表  -->
+	<select id="getBannerList" resultType="com.maomao.ssm.bean.Banner">
+		SELECT * FROM banner b WHERE b.type = 2 ORDER BY  b.type=2 DESC , b.sort DESC   
+	</select>
+	
+	<!--获取首页推荐位内容sort最小,最大字段  -->
+	<select id="getHomeContentTop" parameterType="Integer"  resultType="Integer">
+		SELECT h.sort FROM home_content	h WHERE h.status!=-1 and h.category_id = #{arg0} ORDER BY h.sort DESC LIMIT 1
+	</select>
+
+	<select id="getHomeContentMinSort" resultType="Integer">
+		SELECT h.sort FROM home_content h WHERE h.status!=-1 ORDER BY h.sort ASC LIMIT 1
+	</select>
+	
+	
+	<!-- 获取压货商品最大sort,上架的时候才有排序  -->
+	<select id="getGoodsOverstockTop" resultType="Integer">
+		SELECT g.sort FROM goods_overstock g WHERE g.status = 2 ORDER BY g.sort DESC LIMIT 1
+	</select>
+	
+	
+	<!-- 推荐位内容 下移  -->
+	<select id="getHomeContentUp" parameterType="Integer" resultType="com.maomao.ssm.bean.HomeContent">
+		SELECT b.sort from home_content b WHERE b.category_id = #{arg0} AND b.sort &lt; #{arg1} ORDER BY b.sort limit 0,1
+	</select>
+</mapper>

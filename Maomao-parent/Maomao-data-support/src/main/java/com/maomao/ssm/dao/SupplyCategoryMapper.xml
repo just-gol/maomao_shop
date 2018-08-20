@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.SupplyCategoryMapper">
+
+	<!-- <resultMap type="com.maomao.ssm.pojo.SupplyCategory" id="user"> <id 
+		column="id" property="id"/> 这里的result指的是其他字段 <result column="status" property="status"/> 
+		<result column="name" property="name"/> <result column="sort" property="sort"/> 
+		<result column="stock" property="stock"/> <result column="brandcount" property="brandcount"/> 
+		</resultMap> -->
+	<select id="getSupplyCategoryList" resultType="com.maomao.ssm.pojo.SupplyCategory">
+		SELECT
+		a.id,
+		a.status,
+		a.category_sort categorySort ,
+		a.name,
+		IFNULL( ( sum( b.stock ) ), 0 ) AS stock,
+		IFNULL( c.brandcount, 0 ) AS brandcount
+		FROM
+		goods_category a
+		LEFT JOIN goods b ON b.category_id = a.id
+		LEFT JOIN (
+		SELECT
+		goods_category.id,
+		goods_category.`name`,
+		count( category_id ) AS brandcount
+		FROM
+		goods_brand,
+		goods_category
+		WHERE
+		category_id = goods_category.id
+		GROUP BY
+		category_id
+		) c ON c.id = a.id
+		WHERE
+		a.status !=-1
+		<if test="keywords!=null and keywords!=''">
+			and a.name like '%${keywords}%'
+		</if>
+		and a.is_recommend = #{isRecommend}
+		GROUP BY
+		a.id
+		ORDER BY
+		category_sort asc
+	</select>
+</mapper>

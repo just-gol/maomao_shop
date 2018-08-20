@@ -1,0 +1,34 @@
+10
+
+dir
+2772
+svn://192.168.1.205/maomao/Maomao-parent/Maomao-app/src/main/webapp/static
+svn://192.168.1.205
+
+
+
+2018-01-05T12:26:50.072258Z
+94
+wangzhaoyang
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+c3920e9a-504b-41cf-9408-f0014abfc381
+
+bootstrap-3.3.5-dist
+dir
+
+js
+dir
+

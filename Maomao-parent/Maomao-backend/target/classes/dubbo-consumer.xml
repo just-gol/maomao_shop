@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 添加 DUBBO SCHEMA -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+ <!-- 应用名 -->
+    <dubbo:application name="dubbo-consumer"/>
+    <!-- 连接到哪个注册中心（连接到本机的2181端口zookeeper） -->
+    <dubbo:registry protocol="zookeeper" address="zookeeper://192.168.25.129:2181"/>
+    <!-- 消费方用什么协议获取服务（用dubbo协议在20880端口暴露服务） -->
+ 
+    <!-- 提供哪些接口给消费者调用 -->
+ 
+	<dubbo:reference interface="com.maomao.ssm.service.admin.AdminLoginService" id="adminLoginService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.AccountService" id="accountService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.ShopApplyAuditService" id="shopApplyAuditService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.GoodsShelvesService" id="goodsShelvesService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.SelfItemService" id="selfItemService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.SubscriptionService" id="subscriptionService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.SupplyCategoryService" id="supplyCategoryService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.SupplyDetailsService" id="supplyDetailsService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.SystemService" id="systemService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.AdminOrderService" id="adminOrderService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.MonthMoneyService" id="monthMoneyService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.CreditLineService" id="creditLineService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.UserWithdrawalsService" id="userWithdrawalsService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.ExportService" id="exportService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.SkuService" id="skuService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.MenuService" id="menuService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.DailyDetailService" id="dailyDetailService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.LogService" id="logService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.NoticeService" id="noticeService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.UserFeedBackService" id="userFeedBackService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.CouponService" id="couponService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.HomeCategoryService" id="homeCategoryService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.UserShopService" id="userShopService" timeout="120000"/>
+	
+	<dubbo:reference interface="com.maomao.ssm.service.admin.CategoryHomeArticleAndBannerService" id="categoryHomeArticleAndBannerService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.GoodsOverstockService" id="goodsOverstockService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.HomeCategoryAndContentService" id="homeCategoryAndContentService" timeout="120000"/>
+	<dubbo:reference interface="com.maomao.ssm.service.admin.GoodsHomeService" id="goodsHomeService" timeout="120000"/>
+	
+</beans>

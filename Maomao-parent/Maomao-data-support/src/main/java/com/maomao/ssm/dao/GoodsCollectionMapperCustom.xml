@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsCollectionMapperCustom" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.GoodsWithBLOBs" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price_sales" property="priceSales" jdbcType="BIGINT" />
+  	<result column="imgs" property="imgs" jdbcType="LONGVARCHAR" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="stock_sham" property="stockSham" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectByUserId" resultMap="BaseResultMap">
+  	select a.id,a.name,a.min_price,a.imgs,a.stock,a.stock_sham from goods as a join goods_collection as b on a.id=b.goods_id where b.user_id=#{arg0,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.maomao.ssm.dao.GoodsSubscriptionRecordMapperCustom" >
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.GoodsSubscriptionRecord" >
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="goods_subscription_id" property="goodsSubscriptionId" jdbcType="INTEGER" />
+    <result column="subscription_num" property="subscriptionNum" jdbcType="INTEGER" />
+    <result column="price_subcription_total" property="priceSubcriptionTotal" jdbcType="BIGINT" />
+    <result column="bonus_total" property="bonusTotal" jdbcType="BIGINT" />
+  </resultMap>
+  
+  <select id="selectGroupByUserId" resultMap="BaseResultMap">
+  	SELECT goods_subscription_id,user_id,SUM(subscription_num) AS subscription_num,SUM(price_subcription_total) AS price_subcription_total,sum(bonus_total) AS bonus_total FROM  goods_subscription_record  WHERE goods_subscription_id = #{arg0,jdbcType=INTEGER} GROUP BY user_id
+  </select>
+  
+  <select id="selectGroupByGoodsSubscriptionId" resultMap="BaseResultMap">
+  	SELECT goods_subscription_id,SUM(subscription_num) AS subscription_num,SUM(price_subcription_total) AS price_subcription_total,sum(bonus_total) AS bonus_total FROM goods_subscription_record  WHERE user_id = #{arg0,jdbcType=INTEGER} GROUP BY goods_subscription_id
+  </select>
+  
+</mapper>

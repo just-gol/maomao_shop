@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maomao.ssm.dao.DailyDetailMapper">
+  <resultMap id="BaseResultMap" type="com.maomao.ssm.bean.DailyDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_pay_money" jdbcType="BIGINT" property="orderPayMoney" />
+    <result column="order_refund_money" jdbcType="BIGINT" property="orderRefundMoney" />
+    <result column="coupon_get_money" jdbcType="BIGINT" property="couponGetMoney" />
+    <result column="coupon_use_money" jdbcType="BIGINT" property="couponUseMoney" />
+    <result column="coupon_expire_money" jdbcType="BIGINT" property="couponExpireMoney" />
+    <result column="order_pay_num" jdbcType="INTEGER" property="orderPayNum" />
+    <result column="coupon_get_num" jdbcType="INTEGER" property="couponGetNum" />
+    <result column="coupon_use_num" jdbcType="INTEGER" property="couponUseNum" />
+    <result column="coupon_expire_num" jdbcType="INTEGER" property="couponExpireNum" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_pay_money, order_refund_money, coupon_get_money, coupon_use_money, coupon_expire_money, 
+    order_pay_num, coupon_get_num, coupon_use_num, coupon_expire_num, time
+  </sql>
+  <select id="selectByExample" parameterType="com.maomao.ssm.bean.DailyDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from daily_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from daily_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from daily_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.maomao.ssm.bean.DailyDetailExample">
+    delete from daily_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.maomao.ssm.bean.DailyDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into daily_detail (order_pay_money, order_refund_money, coupon_get_money, 
+      coupon_use_money, coupon_expire_money, order_pay_num, 
+      coupon_get_num, coupon_use_num, coupon_expire_num, 
+      time)
+    values (#{orderPayMoney,jdbcType=BIGINT}, #{orderRefundMoney,jdbcType=BIGINT}, #{couponGetMoney,jdbcType=BIGINT}, 
+      #{couponUseMoney,jdbcType=BIGINT}, #{couponExpireMoney,jdbcType=BIGINT}, #{orderPayNum,jdbcType=INTEGER}, 
+      #{couponGetNum,jdbcType=INTEGER}, #{couponUseNum,jdbcType=INTEGER}, #{couponExpireNum,jdbcType=INTEGER}, 
+      #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.maomao.ssm.bean.DailyDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into daily_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderPayMoney != null">
+        order_pay_money,
+      </if>
+      <if test="orderRefundMoney != null">
+        order_refund_money,
+      </if>
+      <if test="couponGetMoney != null">
+        coupon_get_money,
+      </if>
+      <if test="couponUseMoney != null">
+        coupon_use_money,
+      </if>
+      <if test="couponExpireMoney != null">
+        coupon_expire_money,
+      </if>
+      <if test="orderPayNum != null">
+        order_pay_num,
+      </if>
+      <if test="couponGetNum != null">
+        coupon_get_num,
+      </if>
+      <if test="couponUseNum != null">
+        coupon_use_num,
+      </if>
+      <if test="couponExpireNum != null">
+        coupon_expire_num,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderPayMoney != null">
+        #{orderPayMoney,jdbcType=BIGINT},
+      </if>
+      <if test="orderRefundMoney != null">
+        #{orderRefundMoney,jdbcType=BIGINT},
+      </if>
+      <if test="couponGetMoney != null">
+        #{couponGetMoney,jdbcType=BIGINT},
+      </if>
+      <if test="couponUseMoney != null">
+        #{couponUseMoney,jdbcType=BIGINT},
+      </if>
+      <if test="couponExpireMoney != null">
+        #{couponExpireMoney,jdbcType=BIGINT},
+      </if>
+      <if test="orderPayNum != null">
+        #{orderPayNum,jdbcType=INTEGER},
+      </if>
+      <if test="couponGetNum != null">
+        #{couponGetNum,jdbcType=INTEGER},
+      </if>
+      <if test="couponUseNum != null">
+        #{couponUseNum,jdbcType=INTEGER},
+      </if>
+      <if test="couponExpireNum != null">
+        #{couponExpireNum,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.maomao.ssm.bean.DailyDetailExample" resultType="java.lang.Integer">
+    select count(*) from daily_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update daily_detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderPayMoney != null">
+        order_pay_money = #{record.orderPayMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderRefundMoney != null">
+        order_refund_money = #{record.orderRefundMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.couponGetMoney != null">
+        coupon_get_money = #{record.couponGetMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.couponUseMoney != null">
+        coupon_use_money = #{record.couponUseMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.couponExpireMoney != null">
+        coupon_expire_money = #{record.couponExpireMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderPayNum != null">
+        order_pay_num = #{record.orderPayNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponGetNum != null">
+        coupon_get_num = #{record.couponGetNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponUseNum != null">
+        coupon_use_num = #{record.couponUseNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponExpireNum != null">
+        coupon_expire_num = #{record.couponExpireNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null">
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update daily_detail
+    set id = #{record.id,jdbcType=INTEGER},
+      order_pay_money = #{record.orderPayMoney,jdbcType=BIGINT},
+      order_refund_money = #{record.orderRefundMoney,jdbcType=BIGINT},
+      coupon_get_money = #{record.couponGetMoney,jdbcType=BIGINT},
+      coupon_use_money = #{record.couponUseMoney,jdbcType=BIGINT},
+      coupon_expire_money = #{record.couponExpireMoney,jdbcType=BIGINT},
+      order_pay_num = #{record.orderPayNum,jdbcType=INTEGER},
+      coupon_get_num = #{record.couponGetNum,jdbcType=INTEGER},
+      coupon_use_num = #{record.couponUseNum,jdbcType=INTEGER},
+      coupon_expire_num = #{record.couponExpireNum,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.maomao.ssm.bean.DailyDetail">
+    update daily_detail
+    <set>
+      <if test="orderPayMoney != null">
+        order_pay_money = #{orderPayMoney,jdbcType=BIGINT},
+      </if>
+      <if test="orderRefundMoney != null">
+        order_refund_money = #{orderRefundMoney,jdbcType=BIGINT},
+      </if>
+      <if test="couponGetMoney != null">
+        coupon_get_money = #{couponGetMoney,jdbcType=BIGINT},
+      </if>
+      <if test="couponUseMoney != null">
+        coupon_use_money = #{couponUseMoney,jdbcType=BIGINT},
+      </if>
+      <if test="couponExpireMoney != null">
+        coupon_expire_money = #{couponExpireMoney,jdbcType=BIGINT},
+      </if>
+      <if test="orderPayNum != null">
+        order_pay_num = #{orderPayNum,jdbcType=INTEGER},
+      </if>
+      <if test="couponGetNum != null">
+        coupon_get_num = #{couponGetNum,jdbcType=INTEGER},
+      </if>
+      <if test="couponUseNum != null">
+        coupon_use_num = #{couponUseNum,jdbcType=INTEGER},
+      </if>
+      <if test="couponExpireNum != null">
+        coupon_expire_num = #{couponExpireNum,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.maomao.ssm.bean.DailyDetail">
+    update daily_detail
+    set order_pay_money = #{orderPayMoney,jdbcType=BIGINT},
+      order_refund_money = #{orderRefundMoney,jdbcType=BIGINT},
+      coupon_get_money = #{couponGetMoney,jdbcType=BIGINT},
+      coupon_use_money = #{couponUseMoney,jdbcType=BIGINT},
+      coupon_expire_money = #{couponExpireMoney,jdbcType=BIGINT},
+      order_pay_num = #{orderPayNum,jdbcType=INTEGER},
+      coupon_get_num = #{couponGetNum,jdbcType=INTEGER},
+      coupon_use_num = #{couponUseNum,jdbcType=INTEGER},
+      coupon_expire_num = #{couponExpireNum,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
